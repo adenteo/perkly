@@ -1,5 +1,6 @@
 "use client";
 
+import SendNotification from "@/app/components/notification-send";
 import { Button } from "@/components/ui/button";
 import useMultiBaas from "../../hooks/use-multibaas";
 
@@ -58,6 +59,8 @@ export default function Page() {
       >
         Initiate Airdrop
       </Button>
+
+      <SendNotification />
     </div>
   );
 }

@@ -5,14 +5,15 @@ import { ethers } from "ethers";
 
 export default function SendNotification() {
   const signer = new ethers.Wallet(
-    process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
+    process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA_2 as string
   );
   const handleSendNotfication = async () => {
     const user = await PushAPI.initialize(signer, {
       env: CONSTANTS.ENV.STAGING,
     });
-    const sendNotifRes = await user.channel.send(
-      ["0x34979173eD20EB3DB3eD00b689Da5404199E28aD"],
+    // const sendNotifRes = 
+    await user.channel.send(
+      ["0xd74D14101f78Cf38318dA300E070FB31AA5C0Cf3"],
       {
         notification: {
           title: "going to sleep",
