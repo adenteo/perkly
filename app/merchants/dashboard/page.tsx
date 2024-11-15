@@ -42,8 +42,6 @@ export default function Page() {
     }[];
   }
 
-  const url =
-    "https://api.studio.thegraph.com/query/92897/subscriptionbase/version/latest";
   const { data } = useQuery<Transaction>({
     queryKey: ["data"],
     async queryFn() {

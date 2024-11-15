@@ -61,7 +61,7 @@ export const subscriptionABI = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "newTotalSpending",
+        name: "amountSpent",
         type: "uint256",
       },
     ],

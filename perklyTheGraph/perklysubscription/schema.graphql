@@ -1,0 +1,47 @@
+type MerchantRegistered @entity(immutable: true) {
+  id: Bytes!
+  merchant: Bytes! # address
+  name: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RewardTierReached @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  merchant: Bytes! # address
+  tier: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SpendingTracked @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  merchant: Bytes! # address
+  amountSpent: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TierUpdated @entity(immutable: true) {
+  id: Bytes!
+  merchant: Bytes! # address
+  tierIndex: Int! # uint8
+  spendingThreshold: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UserSubscribed @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  merchant: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

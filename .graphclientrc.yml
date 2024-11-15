@@ -2,7 +2,7 @@ sources:
   - name: perklysubscription
     handler:
       graphql:
-        endpoint: https://api.studio.thegraph.com/query/92897/subscriptionbase/version/latest
+        endpoint: https://api.studio.thegraph.com/query/92897/perklysubscription/version/latest
   - name: chainlink
     handler:
       graphql:
