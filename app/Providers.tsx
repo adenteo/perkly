@@ -58,6 +58,12 @@ export default function Providers({
           createOnLogin: "all-users",
           // noPromptOnSignature: true,
         },
+        fundingMethodConfig: {
+          moonpay: {
+            paymentMethod: "credit_debit_card",
+            uiConfig: { accentColor: "#696FFD", theme: "light" },
+          },
+        },
       }}
     >
       <QueryClientProvider client={queryClient}>
