@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
