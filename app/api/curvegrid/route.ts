@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { sendNotification } from "@/app/actions";
 import prisma from "@/lib/db"; // Assuming you're using Prisma for database interactions
 import { CONSTANTS, PushAPI } from "@pushprotocol/restapi"; // For notifications
 import { ethers } from "ethers";
@@ -50,21 +51,4 @@ export async function POST(req: Request) {
       status: 500,
     });
   }
-}
-
-// Function to send notifications via Push Protocol
-async function sendNotification(toAddress: string, message: string) {
-  const signer = new ethers.Wallet(
-    process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
-  );
-  const user = await PushAPI.initialize(signer, {
-    env: CONSTANTS.ENV.STAGING,
-  });
-
-  await user.channel.send([toAddress], {
-    notification: {
-      title: "NFT Notification",
-      body: message,
-    },
-  });
 }

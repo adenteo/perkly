@@ -3,6 +3,7 @@ import { RegistrarABI } from "@/contracts/abis/registrarABI";
 import { ethers } from "ethers";
 import prisma from "@/lib/db";
 import { v4 as uuidv4 } from "uuid";
+import { CONSTANTS, PushAPI } from "@pushprotocol/restapi";
 
 export const addMerchantENS = async (
   merchantName: string,
@@ -38,6 +39,30 @@ export const addMerchant = async (username: string, walletAddress: string) => {
       walletAddress,
       apiKey: uuidv4(),
     },
+  });
+  return merchant;
+};
+
+// Function to send notifications via Push Protocol
+export async function sendNotification(toAddress: string, message: string) {
+  const signer = new ethers.Wallet(
+    process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
+  );
+  const user = await PushAPI.initialize(signer, {
+    env: CONSTANTS.ENV.STAGING,
+  });
+
+  await user.channel.send([toAddress], {
+    notification: {
+      title: "NFT Notification",
+      body: message,
+    },
+  });
+}
+
+export const fetchMerchant = async (walletAddress: string) => {
+  const merchant = await prisma.merchant.findUnique({
+    where: { walletAddress },
   });
   return merchant;
 };

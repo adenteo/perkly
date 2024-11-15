@@ -1,0 +1,16 @@
+query GetMerchantDashboardData($merchantId: Bytes) {
+  spendingTrackeds(where: { merchant: $merchantId }) {
+    id
+    amountSpent
+    user
+    merchant
+    blockTimestamp
+    transactionHash
+  }
+  userSubscribeds(where: { merchant: $merchantId }) {
+    id
+    user
+    blockTimestamp
+    transactionHash
+  }
+}

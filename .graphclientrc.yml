@@ -1,0 +1,12 @@
+sources:
+  - name: perklysubscription
+    handler:
+      graphql:
+        endpoint: https://api.studio.thegraph.com/query/92897/subscriptionbase/version/latest
+  - name: chainlink
+    handler:
+      graphql:
+        endpoint: https://api.studio.thegraph.com/query/92897/chainlink/version/latest
+documents:
+  - ./graphql/GetDailySpendingsMerchant.gql
+  - ./graphql/GetMerchantDashboardData.gql

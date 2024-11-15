@@ -8,10 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RegistryABI } from "@/contracts/abis/registryABI";
 import { subscriptionABI } from "@/contracts/abis/subscriptionABI";
-import { useDelegatedActions } from "@privy-io/react-auth";
 import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import { ethers } from "ethers";
-import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { encodeFunctionData } from "viem";
@@ -22,7 +20,6 @@ const MerchantOnboarding = () => {
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [txHash, setTxHash] = useState<string>("");
-  const { delegateWallet } = useDelegatedActions();
   const router = useRouter();
 
   if (!client) {
