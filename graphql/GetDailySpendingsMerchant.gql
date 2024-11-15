@@ -1,0 +1,15 @@
+query GetDailySpendingsMerchant($merchantId: Bytes) {
+  totalSpendingStats_collection(
+    interval: day
+    where: { merchant_: { id: $merchantId } }
+    first: 1
+  ) {
+    id
+    merchant {
+      id
+      name
+    }
+    timestamp
+    totalAmount
+  }
+}

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { sendNotification } from "@/app/actions";
 import prisma from "@/lib/db"; // Assuming you're using Prisma for database interactions
 import { sendNotification } from "@/app/actions";
 import { ethers } from "ethers";
