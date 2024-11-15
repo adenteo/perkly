@@ -7,7 +7,7 @@ export const creditUser = async (
   receiverAddress: string,
   merchantAddress: string
 ) => {
-  const consumerAddress = "0x2b37B13D8377FB21cA9FB9A070bBcCb22Ad90c0A"; // REPLACE this with your Functions consumer address
+  const consumerAddress = "0x1ed37981e2b4b6ad07d74fa44b13ed5b122d6543"; // REPLACE this with your Functions consumer address
   const subscriptionId = 229; // REPLACE this with your subscription ID
   const donId = "fun-base-sepolia-1";
   const explorerUrl = "base-sepolia.blockscout.com";
