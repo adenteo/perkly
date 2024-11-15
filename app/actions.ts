@@ -46,15 +46,15 @@ export const addMerchant = async (username: string, walletAddress: string) => {
 // Function to send notifications via Push Protocol
 export async function sendNotification(toAddress: string, message: string) {
   const signer = new ethers.Wallet(
-    process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
+    process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA_2 as string
   );
   const user = await PushAPI.initialize(signer, {
     env: CONSTANTS.ENV.STAGING,
   });
-
+  console.log("trying to send msg")
   await user.channel.send([toAddress], {
     notification: {
-      title: "NFT Notification",
+      title: "🎉 You've received a voucher! 🎉 \n",
       body: message,
     },
   });
