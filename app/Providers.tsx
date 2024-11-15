@@ -45,10 +45,6 @@ export default function Providers({
   //     [sepolia.id]: http(),
   //   },
   // });
-  const biconomyPaymasterApiKey =
-    process.env.NEXT_PUBLIC_PAYMASTER_API_KEY || "";
-  const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL || "";
-
   const queryClient = getQueryClient();
 
   return (
