@@ -78,7 +78,7 @@ contract PerklyToken is
                 callbackGasLimit: callbackGasLimit,
                 numWords: numWords,
                 extraArgs: VRFV2PlusClient._argsToBytes(
-                    VRFV2PlusClient.ExtraArgsV1({nativePayment: true})
+                    VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
                 )
             })
         );
@@ -150,10 +150,8 @@ contract PerklyToken is
         returns (bool upkeepNeeded, bytes memory performData)
     {
         int256 targetPrice = (initialEthPrice * 105) / 100;
-        // int256 latestEthPrice = getLatestEthPrice();
-        int256 latestEthPrice = targetPrice + 100;
-        // bool isFriday = ((block.timestamp / 1 days + 4) % 7) == 1;
-        bool isFriday = true;
+        int256 latestEthPrice = getLatestEthPrice();
+        bool isFriday = ((block.timestamp / 1 days + 4) % 7) == 1;
 
         bool priceCondition = latestEthPrice >= targetPrice;
         bool timeElapsed = (block.timestamp - lastUpkeepTime) >= upkeepInterval;
