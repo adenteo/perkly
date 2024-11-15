@@ -1,11 +1,23 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { usePrivy } from "@privy-io/react-auth";
+import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import { HandCoins } from "lucide-react";
 import Image from "next/image";
+// import { useBalance } from "wagmi";
 import Perkly from "../assets/Perkly.svg";
+import NotificationStream from "./components/notification-stream";
 
 const Navbar = () => {
+  const { client } = useSmartWallets();
+
+  // const perklyToken = useBalance({
+  //   address: client?.account.address,
+  //   token: "0x5323Ccb8a30A7dF961d7fCfacA2924C678d32B2D",
+  // });
+  // console.log(perklyToken.data);
+  // const { data, status } = useEnsName({ address });
+
   const { ready, authenticated, login, logout } = usePrivy();
 
   const disableLogin = !ready || (ready && authenticated);
@@ -22,7 +34,7 @@ const Navbar = () => {
       )}
       {authenticated && (
         <div className="flex justify-center items-center space-x-2">
-          {/* <NotificationStream /> */}
+          <NotificationStream />
           <p className="bg-[#EC7785] rounded-lg p-2 flex justify-center items-center font-semibold">
             <HandCoins className="inline" />
             {/* {perklyToken.data?.formatted || 0} */}
