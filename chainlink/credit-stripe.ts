@@ -39,7 +39,7 @@ export const creditUser = async (
 
   const gasLimit = 300000;
 
-  const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA;
+  const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA_3;
   if (!privateKey)
     throw new Error(
       "private key not provided - check your environment variables"
