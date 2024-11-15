@@ -1,11 +1,11 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -20,4 +20,9 @@ model Merchant {
   apiKey        String @unique
   businessName  String @unique
   walletAddress String @unique
+}
+
+model Voucher {
+  id            String @id
+  walletAddress String
 }
