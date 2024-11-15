@@ -75,7 +75,6 @@ const MerchantOnboarding = () => {
     };
     await fundWallet(wallets[0].address, {
       chain: baseSepolia,
-      asset: "USDC",
     });
     // await sendTransaction(requestData, uiConfig, {
     //   chain: baseSepolia,
