@@ -5,6 +5,7 @@ export async function POST(req: Request) {
     if (body.wallet.type !== "smart_wallet") {
       return Response.json({ error: "Invalid wallet type" }, { status: 400 });
     }
+    console.log("body", body);
     let email = "";
     body.user.linked_accounts.forEach((account: any) => {
       if ("email" in account) {
