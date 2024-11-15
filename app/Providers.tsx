@@ -53,7 +53,7 @@ export default function Providers({
 
   return (
     <PrivyProvider
-      appId={"cm2ujbcqc03trdfrhjmgzy9hx"}
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
       config={{
         supportedChains: [baseSepolia, sepolia],
         // Create embedded wallets for users who don't have a wallet
