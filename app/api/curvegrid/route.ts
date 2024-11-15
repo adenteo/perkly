@@ -1,39 +1,64 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { sendNotification } from "@/app/actions";
 import prisma from "@/lib/db"; // Assuming you're using Prisma for database interactions
-import { CONSTANTS, PushAPI } from "@pushprotocol/restapi"; // For notifications
+import { sendNotification } from "@/app/actions";
 import { ethers } from "ethers";
 
 export async function POST(req: Request) {
   try {
+    console.log("received webhook");
     const body = await req.json();
     const transferEvent = body.find(
-      (eventObj: any) => eventObj.data.event.name === "Transfer"
+      (eventObj: any) => eventObj.data.event.name === "AirdropCompleted"
     );
-
+    console.log("transferEvent");
     if (transferEvent) {
       // Destructure the address and tokenId from the "inputs" array of the Transfer event
       const toAddress = transferEvent.data.event.inputs.find(
-        (input: any) => input.name === "to"
+        (input: any) => input.name === "selectedRecipient"
       )?.value;
       const tokenId = transferEvent.data.event.inputs.find(
-        (input: any) => input.name === "tokenId"
+        (input: any) => input.name === "voucherId"
       )?.value;
+      console.log(toAddress, tokenId, "toAddress, tokenId");
       const contractAddress = transferEvent.data.event.contract.address;
-
+      console.log(contractAddress, "contractAddress");
       // Store NFT ownership in the database
       await prisma.voucher.create({
         data: {
-          id: tokenId,
-          walletAddress: toAddress,
+          id: tokenId!,
+          walletAddress: toAddress!,
         },
       });
+      console.log("created on primsa");
+
+      const provider = new ethers.JsonRpcProvider(
+        process.env.NEXT_PUBLIC_RPC_BASE
+      );
+      const abi = [
+        "function tokenURI(uint256 tokenId) public view returns (string)",
+      ];
+      const contract = new ethers.Contract(contractAddress, abi, provider);
+
+      // Fetch the token URI
+      const tokenURI = await contract.tokenURI(tokenId);
+      console.log(`Fetched token URI: ${tokenURI}`);
+
+      const resolvedURI = tokenURI.startsWith("ipfs://")
+        ? tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        : tokenURI;
+
+      // Fetch the metadata from the token URI
+      const metadataResponse = await fetch(resolvedURI);
+      const metadata = await metadataResponse.json();
+
+      // Log metadata for debugging
+      console.log("Fetched metadata:", metadata);
 
       // Send notification to the recipient
       await sendNotification(
         toAddress,
-        `You received an voucher with Token ID: ${tokenId}`
-        // CTA to see user profile page
+        `Voucher ID: ${tokenId}\n ${metadata.description}`
       );
 
       return new Response(JSON.stringify({ status: "success" }), {
