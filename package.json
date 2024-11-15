@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "@privy-io/react-auth": "^1.94.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@solana/web3.js": "^1.95.4",
