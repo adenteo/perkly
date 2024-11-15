@@ -1,5 +1,6 @@
 "use client";
 import { addMerchant, addMerchantENS } from "@/app/actions";
+import { ConfirmationDialog } from "@/app/components/confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,8 +29,7 @@ const MerchantOnboarding = () => {
     return <div>Please log in to continue</div>;
   }
 
-  const handleOnboardOnSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleOnboardOnSubmit = async () => {
     setIsLoading(true);
     const encodedPacked = ethers.solidityPackedKeccak256(
       ["string"],
@@ -75,67 +75,77 @@ const MerchantOnboarding = () => {
   };
 
   return (
-    <Card className="w-[350px] m-4 overflow-auto">
-      <CardHeader>
-        <CardTitle>Launch loyalty programme</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleOnboardOnSubmit}>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-4">
-              <Label htmlFor="name">Merchant Name</Label>
-              <Input
-                id="name"
-                name="name"
-                onChange={(e) => setMerchantName(e.target.value)}
-                placeholder="Name of your business"
-                required
-                minLength={3}
-              />
-              <Label htmlFor="name">Description</Label>
-              <Textarea
-                id="description"
-                name="description"
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Description of your business"
-                required
-                minLength={3}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col mt-4">
-            <Button className="w-full" type="submit">
-              {isLoading ? <LoaderCircle className="animate-spin" /> : "Launch"}
-            </Button>
-            {isLoading && (
-              <span>Configuring dashboard. This could take awhile...</span>
-            )}
-            {txHash && (
-              <div className="self-start text-xs mt-6">
-                <div>Registration success!</div>
-                <a
-                  href={`https://sepolia.etherscan.io/tx/${txHash}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-blue-500"
-                >
-                  {txHash}
-                </a>
-                <Button
-                  type="button"
-                  className="font-bold"
-                  onClick={() => {
-                    router.push("/merchants/dashboard");
-                  }}
-                >
-                  Go to dashboard
-                </Button>
+    <div className="flex flex-col justify-center items-center p-6 lg:p-16">
+      <Card className="w-[350px] m-4 overflow-auto">
+        <CardHeader>
+          <CardTitle>Launch loyalty programme</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-4">
+                <Label htmlFor="name">Merchant Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  onChange={(e) => setMerchantName(e.target.value)}
+                  placeholder="Name of your business"
+                  required
+                  minLength={3}
+                />
+                <Label htmlFor="name">Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Description of your business"
+                  required
+                  minLength={3}
+                />
               </div>
-            )}
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+            </div>
+            <div className="flex flex-col mt-4">
+              <ConfirmationDialog
+                disabled={isLoading || !merchantName || !description}
+                onConfirm={async () => await handleOnboardOnSubmit()}
+                label={"Launch"}
+                title={"Confirm Launch?"}
+                description={
+                  "We will launch your subscription programme for you. This action cannot be undone."
+                }
+              />
+              {isLoading && (
+                <span className="mt-4">
+                  Configuring dashboard. This could take awhile...
+                </span>
+              )}
+              {txHash && (
+                <div className="self-start text-xs mt-6">
+                  <div>Registration success!</div>
+                  <a
+                    href={`https://sepolia.etherscan.io/tx/${txHash}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-500"
+                  >
+                    {txHash}
+                  </a>
+                  <Button
+                    type="button"
+                    className="font-bold"
+                    onClick={() => {
+                      router.push("/merchants/dashboard");
+                    }}
+                  >
+                    Go to dashboard
+                  </Button>
+                </div>
+              )}
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
