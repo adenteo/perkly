@@ -7,6 +7,7 @@ import {
 import { http } from "viem";
 import { baseSepolia, sepolia } from "viem/chains";
 import { PrivyProvider } from "@privy-io/react-auth";
+import { SmartWalletsProvider } from "@privy-io/react-auth/smart-wallets";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -56,30 +57,29 @@ export default function Providers({
         defaultChain: baseSepolia,
         embeddedWallets: {
           createOnLogin: "all-users",
-          // noPromptOnSignature: true,
         },
-        // fundingMethodConfig: {
-        //   moonpay: {
-        //     paymentMethod: "credit_debit_card",
-        //     uiConfig: { accentColor: "#696FFD", theme: "light" },
-        //   },
-        // },
       }}
     >
-      <QueryClientProvider client={queryClient}>
-        {/* <WagmiProvider config={config}> */}
-        {/* <BiconomyProvider
-              config={{
-                biconomyPaymasterApiKey,
-                bundlerUrl,
-                // Add your signer here if you don't want to use the metamask signer
-              }}
-              queryClient={queryClient}
-            > */}
-        {children}
-        {/* </BiconomyProvider> */}
-        {/* </WagmiProvider> */}
-      </QueryClientProvider>
+      <SmartWalletsProvider
+        config={{
+          paymasterContext: {
+            mode: "SPONSORED",
+            calculateGasLimits: true,
+            expiryDuration: 300,
+            sponsorshipInfo: {
+              webhookData: {},
+              smartAccountInfo: {
+                name: "BICONOMY",
+                version: "2.0.0",
+              },
+            },
+          },
+        }}
+      >
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </SmartWalletsProvider>
     </PrivyProvider>
   );
 }
