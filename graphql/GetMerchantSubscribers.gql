@@ -1,0 +1,5 @@
+query GetMerchantSubscribers($merchantId: String) {
+  subscribers(where: { merchants_: { merchant: $merchantId } }) {
+    id
+  }
+}

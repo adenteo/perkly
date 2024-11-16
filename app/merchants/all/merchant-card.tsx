@@ -7,16 +7,19 @@ import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import { useQuery } from "@tanstack/react-query";
 import request, { gql } from "graphql-request";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { encodeFunctionData } from "viem";
+import { publicClient } from "./client";
+import { normalize } from "viem/ens";
+import { ConfirmationDialog } from "@/app/components/confirmation-dialog";
+import { ethers } from "ethers";
 
 export default function MerchantCard({
   merchantName,
   merchantAddress,
-  merchantDescription,
 }: {
   merchantName: string;
   merchantAddress: string;
-  merchantDescription: string;
 }) {
   interface Transaction {
     userSubscribeds: {
@@ -26,6 +29,8 @@ export default function MerchantCard({
   }
 
   const router = useRouter();
+  const [merchantDescription, setMerchantDescription] = useState<string>("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
   const { client } = useSmartWallets();
   const query = gql`
@@ -51,11 +56,12 @@ export default function MerchantCard({
 
   const handleSubscribeOnClick = async () => {
     if (!client) return;
+    setIsSubscribing(true);
     const tx = await client.sendTransaction({
       account: client.account,
       calls: [
         {
-          to: "0xBAd0099A8833e28136e6329bb1dD1bE3faF5406f",
+          to: "0x2b37B13D8377FB21cA9FB9A070bBcCb22Ad90c0A",
           data: encodeFunctionData({
             abi: subscriptionABI,
             functionName: "subscribe",
@@ -64,8 +70,16 @@ export default function MerchantCard({
         },
       ],
     });
+
+    const provider = new ethers.JsonRpcProvider(
+      process.env.NEXT_PUBLIC_RPC_BASE
+    );
+    await provider.waitForTransaction(tx);
+    console.log("done", tx);
+
     await refetch();
     router.refresh();
+    setIsSubscribing(false);
   };
 
   const isSubscribed =
@@ -75,9 +89,21 @@ export default function MerchantCard({
         subscription.user == client.account.address.toLowerCase()
     );
 
+  useEffect(() => {
+    const getMerchantDescription = async () => {
+      const ensText = await publicClient.getEnsText({
+        name: normalize(`${merchantName}.adenteo.eth`),
+        key: "Description",
+      });
+      setMerchantDescription(ensText!);
+    };
+
+    getMerchantDescription();
+  }, []);
+
   return (
-    <Card className="p-4">
-      <div className="">
+    <Card className="p-4 flex flex-col h-full">
+      <div className="mb-4">
         <div className="text-xl font-semibold">{merchantName}</div>
         <div className="text-xs line-clamp-4">{merchantDescription}</div>
         {data && data.userSubscribeds && (
@@ -85,16 +111,20 @@ export default function MerchantCard({
             {data.userSubscribeds.length} subscribers
           </div>
         )}
-        {client && (
-          <Button
-            disabled={isSubscribed}
-            className="mt-4"
-            onClick={handleSubscribeOnClick}
-          >
-            Subscribe
-          </Button>
-        )}
       </div>
+      {client && (
+        <div className="mt-auto">
+          <ConfirmationDialog
+            disabled={isSubscribing || isSubscribed}
+            onConfirm={async () => {
+              await handleSubscribeOnClick();
+            }}
+            title="Subscribe?"
+            label={isSubscribing ? "Subscribing..." : "Subscribe"}
+            description="Confirm subscription to merchant?"
+          />
+        </div>
+      )}
     </Card>
   );
 }

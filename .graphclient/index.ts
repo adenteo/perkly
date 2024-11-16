@@ -2683,7 +2683,8 @@ const merger = new(StitchingMerger as any)({
       })
 const documentHashMap = {
         "21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a": GetDailySpendingsMerchantDocument,
-"8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc": GetMerchantDashboardDataDocument
+"8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc": GetMerchantDashboardDataDocument,
+"b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b": GetMerchantSubscribersDocument
       }
 additionalEnvelopPlugins.push(usePersistedOperations({
         getPersistedOperation(key) {
@@ -2718,6 +2719,13 @@ additionalEnvelopPlugins.push(usePersistedOperations({
         },
         location: 'GetMerchantDashboardDataDocument.graphql',
         sha256Hash: '8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc'
+      },{
+        document: GetMerchantSubscribersDocument,
+        get rawSDL() {
+          return printWithCache(GetMerchantSubscribersDocument);
+        },
+        location: 'GetMerchantSubscribersDocument.graphql',
+        sha256Hash: 'b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b'
       }
     ];
     },
@@ -2789,6 +2797,13 @@ export type GetMerchantDashboardDataQueryVariables = Exact<{
 
 export type GetMerchantDashboardDataQuery = { spendingTrackeds: Array<Pick<SpendingTracked, 'id' | 'amountSpent' | 'user' | 'merchant' | 'blockTimestamp' | 'transactionHash'>>, userSubscribeds: Array<Pick<UserSubscribed, 'id' | 'user' | 'blockTimestamp' | 'transactionHash'>> };
 
+export type GetMerchantSubscribersQueryVariables = Exact<{
+  merchantId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetMerchantSubscribersQuery = { subscribers: Array<Pick<Subscriber, 'id'>> };
+
 
 export const GetDailySpendingsMerchantDocument = gql`
     query GetDailySpendingsMerchant($merchantId: Bytes) {
@@ -2825,6 +2840,14 @@ export const GetMerchantDashboardDataDocument = gql`
   }
 }
     ` as unknown as DocumentNode<GetMerchantDashboardDataQuery, GetMerchantDashboardDataQueryVariables>;
+export const GetMerchantSubscribersDocument = gql`
+    query GetMerchantSubscribers($merchantId: String) {
+  subscribers(where: {merchants_: {merchant: $merchantId}}) {
+    id
+  }
+}
+    ` as unknown as DocumentNode<GetMerchantSubscribersQuery, GetMerchantSubscribersQueryVariables>;
+
 
 
 
@@ -2836,6 +2859,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     GetMerchantDashboardData(variables?: GetMerchantDashboardDataQueryVariables, options?: C): Promise<GetMerchantDashboardDataQuery> {
       return requester<GetMerchantDashboardDataQuery, GetMerchantDashboardDataQueryVariables>(GetMerchantDashboardDataDocument, variables, options) as Promise<GetMerchantDashboardDataQuery>;
+    },
+    GetMerchantSubscribers(variables?: GetMerchantSubscribersQueryVariables, options?: C): Promise<GetMerchantSubscribersQuery> {
+      return requester<GetMerchantSubscribersQuery, GetMerchantSubscribersQueryVariables>(GetMerchantSubscribersDocument, variables, options) as Promise<GetMerchantSubscribersQuery>;
     }
   };
 }

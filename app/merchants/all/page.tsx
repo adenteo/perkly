@@ -12,20 +12,12 @@ export default async function Page() {
     <div className="p-6">
       <h1 className="text-3xl font-semibold">Merchants</h1>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {merchants.map(async (merchant) => {
-          const ensAddress = await publicClient.getEnsAddress({
-            name: normalize(`${merchant.businessName}.adenteo.eth`),
-          });
-          const ensText = await publicClient.getEnsText({
-            name: normalize(`${merchant.businessName}.adenteo.eth`),
-            key: "Description",
-          });
+        {merchants.map((merchant) => {
           return (
             <MerchantCard
               key={merchant.id}
               merchantName={merchant.businessName}
-              merchantDescription={ensText!}
-              merchantAddress={ensAddress!}
+              merchantAddress={merchant.walletAddress}
             />
           );
         })}

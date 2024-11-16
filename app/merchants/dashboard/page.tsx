@@ -22,8 +22,11 @@ export default function Page() {
   const { client } = useSmartWallets();
   const [merchant, setMerchant] = useState<any>(null);
   const [ensNames, setEnsNames] = useState<{ [address: string]: string }>({});
-  const { GetDailySpendingsMerchant, GetMerchantDashboardData } =
-    getBuiltGraphSDK();
+  const {
+    GetDailySpendingsMerchant,
+    GetMerchantDashboardData,
+    GetMerchantSubscribers,
+  } = getBuiltGraphSDK();
 
   interface Transaction {
     spendingTrackeds: {
@@ -98,6 +101,10 @@ export default function Page() {
     }
 
     const checkMerchant = async () => {
+      // const data = await GetMerchantSubscribers({
+      //   merchantId: client.account.address,
+      // });
+      // const subscriberList = data.subscribers.map((s) => s.id);
       const existingMerchant = await fetchMerchant(client.account.address);
       if (existingMerchant) {
         console.log("Existing Merchant", existingMerchant);
