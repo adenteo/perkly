@@ -23,13 +23,13 @@ export async function POST(req: Request) {
       const contractAddress = transferEvent.data.event.contract.address;
       console.log(contractAddress, "contractAddress");
       // Store NFT ownership in the database
-      await prisma.voucher.create({
-        data: {
-          id: tokenId!,
-          walletAddress: toAddress!,
-        },
-      });
-      console.log("created on primsa");
+      // await prisma.voucher.create({
+      //   data: {
+      //     id: tokenId!,
+      //     walletAddress: toAddress!,
+      //   },
+      // });
+      // console.log("created on primsa");
 
       const provider = new ethers.JsonRpcProvider(
         process.env.NEXT_PUBLIC_RPC_BASE
