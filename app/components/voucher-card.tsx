@@ -13,6 +13,8 @@ interface VoucherCardProps {
 
 const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, onClaim }) => {
   const [isClaiming, setIsClaiming] = useState(false);
+  const nftAddress = process.env.NEXT_PUBLIC_PERKLY_VOUCHER_ADDRESS;
+  const blockscoutUrl = process.env.NEXT_PUBLIC_BLOCKSCOUT_URL;
 
   const handleClaim = async () => {
     setIsClaiming(true);
@@ -27,7 +29,17 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, onClaim }) => {
 
   return (
     <Card className="border rounded-lg p-4 shadow flex flex-col">
-      <h2 className="text-lg font-semibold">Voucher ID: {voucher.voucherId}</h2>
+      <h2 className="text-lg font-semibold">
+        Voucher ID:{" "}
+        <a
+          href={`${blockscoutUrl}/token/${nftAddress}/instance/${voucher.voucherId}`}
+          target="_blank"
+          rel="noreferrer"
+          className="text-blue-500"
+        >
+          {voucher.voucherId}
+        </a>
+      </h2>
       {voucher.metadata ? (
         <div className="mt-2">
           <p>
@@ -37,11 +49,18 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, onClaim }) => {
             <strong>Description:</strong> {voucher.metadata.description}
           </p>
           {voucher.imageUrl && (
-            <img
-              src={voucher.imageUrl}
-              alt={voucher.metadata.name}
-              className="mt-2 w-full h-auto rounded-lg"
-            />
+            <a
+              href={`${blockscoutUrl}/token/${nftAddress}/instance/${voucher.voucherId}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-500"
+            >
+              <img
+                src={voucher.imageUrl}
+                alt={voucher.metadata.name}
+                className="mt-2 w-full h-auto rounded-lg"
+              />
+            </a>
           )}
         </div>
       ) : (
