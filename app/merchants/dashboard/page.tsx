@@ -10,6 +10,7 @@ import { useEffect, useState, useMemo } from "react";
 import { getEnsName } from "viem/actions";
 import { publicClient } from "./client";
 import { ethers } from "ethers";
+import MerchantCustomVoucher from "@/app/components/merchant-custom-voucher";
 import useMultiBaas from "@/app/hooks/use-multibaas";
 
 import { getBuiltGraphSDK } from "../../../.graphclient";
@@ -31,6 +32,7 @@ export default function Page() {
   const [ensNames, setEnsNames] = useState<{ [address: string]: string }>({});
   const [numWinners, setNumWinners] = useState(1);
   const [isAirdropping, setIsAirdropping] = useState(false);
+  const [discountHash, setDiscountHash] = useState("");
   const {
     GetDailySpendingsMerchant,
     GetMerchantDashboardData,
@@ -108,36 +110,74 @@ export default function Page() {
 
   const handleInitiateAirdrop = async () => {
     setIsAirdropping(true);
-    const data = await GetMerchantSubscribers({
-      merchantId: client.account.address,
-    });
-    const subscriberList = data.subscribers.map((s) => s.id);
-    console.log(subscriberList);
     try {
-      console.log("clicked");
+      const data = await GetMerchantSubscribers({
+        merchantId: client.account.address,
+      });
+      const subscriberList = data.subscribers.map((s) => s.id);
+      console.log("Subscriber List:", subscriberList);
+
+      const provider = new ethers.JsonRpcProvider(
+        "https://base-sepolia.g.alchemy.com/v2/Kj6gL2WIT6LCpP2xoL4qaelgB9ZBG-27"
+      );
+      const wallet = new ethers.Wallet(
+        process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
+      );
+      const signer = wallet.connect(provider);
+
+      // Fetch the current nonce for the wallet
+      let currentNonce = await provider.getTransactionCount(
+        wallet.address,
+        "latest"
+      );
+
+      console.log("Initiating Airdrop");
       for (let i = 0; i < numWinners; i++) {
-        const txn = await initiateAirdrop(
-          client.account.address,
-          subscriberList,
-          "bafkreigqpzbkmexkmx42txx5tgoaqaasme7zv46u43xxlpid7spov3vasi"
-        );
+        try {
+          // Generate the transaction data
+          const txn = await initiateAirdrop(
+            client.account.address,
+            subscriberList,
+            discountHash
+          );
 
-        const provider = new ethers.JsonRpcProvider(
-          "https://base-sepolia.g.alchemy.com/v2/Kj6gL2WIT6LCpP2xoL4qaelgB9ZBG-27"
-        );
+          // Add the correct nonce to the transaction
+          const tx = await signer.sendTransaction({
+            ...txn,
+            nonce: currentNonce,
+          });
 
-        const wallet = new ethers.Wallet(
-          process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
-        );
-        const signer = wallet.connect(provider);
+          console.log(`Airdrop transaction ${i + 1}:`, tx);
 
-        const tx = await signer.sendTransaction(txn as any);
-        console.log(`Airdrop transaction ${i + 1}:`, tx);
+          // Increment the nonce for the next transaction
+          currentNonce++;
+        } catch (error) {
+          console.error(`Error initiating airdrop for winner ${i + 1}:`, error);
+        }
       }
     } catch (error) {
       console.error("Error initiating airdrop:", error);
+    } finally {
+      setIsAirdropping(false);
     }
-    setIsAirdropping(false);
+  };
+
+  const handleCreateHash = async (formData: any) => {
+    try {
+      // You can make your API call here
+      const apiResponse = await fetch("/api/submit-merchant-data", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (apiResponse.ok) {
+        alert("Form submitted successfully!");
+      } else {
+        throw new Error("Failed to submit form");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   useEffect(() => {
@@ -206,6 +246,14 @@ export default function Page() {
           </CardContent>
         </Card>
       </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="col-span-3">
+          <MerchantCustomVoucher
+            businessName={merchant?.businessName}
+            onSubmit={handleCreateHash}
+          />
+        </Card>
+      </div>
       <Card>
         <CardHeader>
           <CardTitle>Voucher Giveaway</CardTitle>
@@ -221,6 +269,17 @@ export default function Page() {
                 value={numWinners}
                 onChange={(e) => setNumWinners(Number(e.target.value))}
                 className="w-20 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700">
+                Discount Hash:
+              </label>
+              <input
+                type="text"
+                value={discountHash}
+                onChange={(e) => setDiscountHash(e.target.value)}
+                className="px-3 py-2 w-1/2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
             <Button
