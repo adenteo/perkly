@@ -37,5 +37,9 @@ Perkly is a blockchain-powered rewards platform enabling users to earn Web3 toke
 - **Push Protocol**: Send real time notifications to users via notification stream.
 
 ---
+## **Curvegrid Speed Run Video**
+https://drive.google.com/file/d/1Bac7BpSzqOrAV0fBIhn9FbWLWO0ocoLZ/view?usp=sharing
+
+---
 
 Perkly simplifies blockchain adoption for merchants and users alike, delivering a seamless, rewarding shopping experience!
