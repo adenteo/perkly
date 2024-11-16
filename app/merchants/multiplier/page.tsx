@@ -18,6 +18,7 @@ export default function Page() {
     // if (!client) return;
     console.log("clicked");
     const txn = await initiateAirdrop(
+      "0x34979173ed20eb3db3ed00b689da5404199e28ad",
       [
         "0x34979173ed20eb3db3ed00b689da5404199e28ad",
         "0x6e8f63FB1009f2717aE49F288A9407C3557D428C",
