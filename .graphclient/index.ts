@@ -21,8 +21,8 @@ import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext
 import { MeshStore, FsStoreStorageAdapter } from '@graphql-mesh/store';
 import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
-import type { PerklyVoucherTypes } from './sources/perklyVoucher/types';
 import type { PerklysubscriptionTypes } from './sources/perklysubscription/types';
+import type { PerklyVoucherTypes } from './sources/perklyVoucher/types';
 import * as importedModule$0 from "./sources/perklysubscription/introspectionSchema";
 import * as importedModule$1 from "./sources/perklyVoucher/introspectionSchema";
 export type Maybe<T> = T | null;
@@ -65,12 +65,16 @@ export type Query = {
   spendingTrackeds: Array<SpendingTracked>;
   spendingTrackedData?: Maybe<SpendingTrackedData>;
   spendingTrackedDatas: Array<SpendingTrackedData>;
+  spendingTrackedDataUser?: Maybe<SpendingTrackedDataUser>;
+  spendingTrackedDataUsers: Array<SpendingTrackedDataUser>;
   tierUpdated?: Maybe<TierUpdated>;
   tierUpdateds: Array<TierUpdated>;
   userSubscribed?: Maybe<UserSubscribed>;
   userSubscribeds: Array<UserSubscribed>;
   /** Collection of aggregated `TotalSpendingStats` values */
   totalSpendingStats_collection: Array<TotalSpendingStats>;
+  /** Collection of aggregated `TotalSpendingStatsUser` values */
+  totalSpendingStatsUsers: Array<TotalSpendingStatsUser>;
   merchantSearch: Array<Merchant>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
@@ -94,6 +98,8 @@ export type Query = {
   ownershipTransferreds: Array<OwnershipTransferred>;
   subscriberAdded?: Maybe<SubscriberAdded>;
   subscriberAddeds: Array<SubscriberAdded>;
+  tokenBurn?: Maybe<TokenBurn>;
+  tokenBurns: Array<TokenBurn>;
   transfer?: Maybe<Transfer>;
   transfers: Array<Transfer>;
   voucherDiscountsSet?: Maybe<VoucherDiscountsSet>;
@@ -229,6 +235,24 @@ export type QueryspendingTrackedDatasArgs = {
 };
 
 
+export type QueryspendingTrackedDataUserArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryspendingTrackedDataUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<SpendingTrackedDataUser_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<SpendingTrackedDataUser_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type QuerytierUpdatedArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -270,6 +294,16 @@ export type QuerytotalSpendingStats_collectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   interval: Aggregation_interval;
   where?: InputMaybe<TotalSpendingStats_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytotalSpendingStatsUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  interval: Aggregation_interval;
+  where?: InputMaybe<TotalSpendingStatsUser_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -470,6 +504,24 @@ export type QuerysubscriberAddedsArgs = {
 };
 
 
+export type QuerytokenBurnArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytokenBurnsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<TokenBurn_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TokenBurn_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type QuerytransferArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -538,12 +590,16 @@ export type Subscription = {
   spendingTrackeds: Array<SpendingTracked>;
   spendingTrackedData?: Maybe<SpendingTrackedData>;
   spendingTrackedDatas: Array<SpendingTrackedData>;
+  spendingTrackedDataUser?: Maybe<SpendingTrackedDataUser>;
+  spendingTrackedDataUsers: Array<SpendingTrackedDataUser>;
   tierUpdated?: Maybe<TierUpdated>;
   tierUpdateds: Array<TierUpdated>;
   userSubscribed?: Maybe<UserSubscribed>;
   userSubscribeds: Array<UserSubscribed>;
   /** Collection of aggregated `TotalSpendingStats` values */
   totalSpendingStats_collection: Array<TotalSpendingStats>;
+  /** Collection of aggregated `TotalSpendingStatsUser` values */
+  totalSpendingStatsUsers: Array<TotalSpendingStatsUser>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
   airdropCompleted?: Maybe<AirdropCompleted>;
@@ -566,6 +622,8 @@ export type Subscription = {
   ownershipTransferreds: Array<OwnershipTransferred>;
   subscriberAdded?: Maybe<SubscriberAdded>;
   subscriberAddeds: Array<SubscriberAdded>;
+  tokenBurn?: Maybe<TokenBurn>;
+  tokenBurns: Array<TokenBurn>;
   transfer?: Maybe<Transfer>;
   transfers: Array<Transfer>;
   voucherDiscountsSet?: Maybe<VoucherDiscountsSet>;
@@ -701,6 +759,24 @@ export type SubscriptionspendingTrackedDatasArgs = {
 };
 
 
+export type SubscriptionspendingTrackedDataUserArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionspendingTrackedDataUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<SpendingTrackedDataUser_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<SpendingTrackedDataUser_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type SubscriptiontierUpdatedArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -742,6 +818,16 @@ export type SubscriptiontotalSpendingStats_collectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   interval: Aggregation_interval;
   where?: InputMaybe<TotalSpendingStats_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontotalSpendingStatsUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  interval: Aggregation_interval;
+  where?: InputMaybe<TotalSpendingStatsUser_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -927,6 +1013,24 @@ export type SubscriptionsubscriberAddedsArgs = {
   orderBy?: InputMaybe<SubscriberAdded_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<SubscriberAdded_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontokenBurnArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontokenBurnsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<TokenBurn_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TokenBurn_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -1332,6 +1436,72 @@ export type SpendingTrackedData = {
   amount: Scalars['BigInt']['output'];
 };
 
+export type SpendingTrackedDataUser = {
+  id: Scalars['Int8']['output'];
+  timestamp: Scalars['Timestamp']['output'];
+  subscriber: Subscriber;
+  amount: Scalars['BigInt']['output'];
+};
+
+export type SpendingTrackedDataUser_filter = {
+  id?: InputMaybe<Scalars['Int8']['input']>;
+  id_not?: InputMaybe<Scalars['Int8']['input']>;
+  id_gt?: InputMaybe<Scalars['Int8']['input']>;
+  id_lt?: InputMaybe<Scalars['Int8']['input']>;
+  id_gte?: InputMaybe<Scalars['Int8']['input']>;
+  id_lte?: InputMaybe<Scalars['Int8']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
+  id_not_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
+  timestamp?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_not?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  subscriber?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not?: InputMaybe<Scalars['String']['input']>;
+  subscriber_gt?: InputMaybe<Scalars['String']['input']>;
+  subscriber_lt?: InputMaybe<Scalars['String']['input']>;
+  subscriber_gte?: InputMaybe<Scalars['String']['input']>;
+  subscriber_lte?: InputMaybe<Scalars['String']['input']>;
+  subscriber_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  subscriber_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  subscriber_contains?: InputMaybe<Scalars['String']['input']>;
+  subscriber_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_contains?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_starts_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_ends_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_?: InputMaybe<Subscriber_filter>;
+  amount?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_not?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  amount_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<SpendingTrackedDataUser_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<SpendingTrackedDataUser_filter>>>;
+};
+
+export type SpendingTrackedDataUser_orderBy =
+  | 'id'
+  | 'timestamp'
+  | 'subscriber'
+  | 'subscriber__id'
+  | 'amount';
+
 export type SpendingTrackedData_filter = {
   id?: InputMaybe<Scalars['Int8']['input']>;
   id_not?: InputMaybe<Scalars['Int8']['input']>;
@@ -1604,6 +1774,35 @@ export type TotalSpendingStats = {
   count: Scalars['Int8']['output'];
 };
 
+export type TotalSpendingStatsUser = {
+  id: Scalars['Int8']['output'];
+  timestamp: Scalars['Timestamp']['output'];
+  subscriber: Subscriber;
+  totalAmount: Scalars['BigInt']['output'];
+  count: Scalars['Int8']['output'];
+};
+
+export type TotalSpendingStatsUser_filter = {
+  id?: InputMaybe<Scalars['Int8']['input']>;
+  id_gt?: InputMaybe<Scalars['Int8']['input']>;
+  id_lt?: InputMaybe<Scalars['Int8']['input']>;
+  id_gte?: InputMaybe<Scalars['Int8']['input']>;
+  id_lte?: InputMaybe<Scalars['Int8']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
+  timestamp?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  subscriber?: InputMaybe<Scalars['String']['input']>;
+  subscriber_?: InputMaybe<Subscriber_filter>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<TotalSpendingStatsUser_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TotalSpendingStatsUser_filter>>>;
+};
+
 export type TotalSpendingStats_filter = {
   id?: InputMaybe<Scalars['Int8']['input']>;
   id_gt?: InputMaybe<Scalars['Int8']['input']>;
@@ -1743,6 +1942,7 @@ export type AirdropCompleted = {
   requestId: Scalars['BigInt']['output'];
   selectedRecipient: Scalars['Bytes']['output'];
   voucherId: Scalars['BigInt']['output'];
+  merchant: Scalars['Bytes']['output'];
   blockNumber: Scalars['BigInt']['output'];
   blockTimestamp: Scalars['BigInt']['output'];
   transactionHash: Scalars['Bytes']['output'];
@@ -1785,6 +1985,16 @@ export type AirdropCompleted_filter = {
   voucherId_lte?: InputMaybe<Scalars['BigInt']['input']>;
   voucherId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   voucherId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  merchant?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_not?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  merchant_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  merchant_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
   blockNumber?: InputMaybe<Scalars['BigInt']['input']>;
   blockNumber_not?: InputMaybe<Scalars['BigInt']['input']>;
   blockNumber_gt?: InputMaybe<Scalars['BigInt']['input']>;
@@ -1822,6 +2032,7 @@ export type AirdropCompleted_orderBy =
   | 'requestId'
   | 'selectedRecipient'
   | 'voucherId'
+  | 'merchant'
   | 'blockNumber'
   | 'blockTimestamp'
   | 'transactionHash';
@@ -2548,6 +2759,72 @@ export type SubscriberAdded_orderBy =
   | 'blockTimestamp'
   | 'transactionHash';
 
+export type TokenBurn = {
+  id: Scalars['Bytes']['output'];
+  voucherId: Scalars['BigInt']['output'];
+  blockNumber: Scalars['BigInt']['output'];
+  blockTimestamp: Scalars['BigInt']['output'];
+  transactionHash: Scalars['Bytes']['output'];
+};
+
+export type TokenBurn_filter = {
+  id?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not?: InputMaybe<Scalars['Bytes']['input']>;
+  id_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  id_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  id_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  id_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  id_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  id_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  voucherId?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_not?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  voucherId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockNumber?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_not?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockTimestamp?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_not?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  transactionHash?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_not?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  transactionHash_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  transactionHash_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<TokenBurn_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TokenBurn_filter>>>;
+};
+
+export type TokenBurn_orderBy =
+  | 'id'
+  | 'voucherId'
+  | 'blockNumber'
+  | 'blockTimestamp'
+  | 'transactionHash';
+
 export type Transfer = {
   id: Scalars['Bytes']['output'];
   from: Scalars['Bytes']['output'];
@@ -2906,6 +3183,9 @@ export type ResolversTypes = ResolversObject<{
   RewardTierReached_orderBy: RewardTierReached_orderBy;
   SpendingTracked: ResolverTypeWrapper<SpendingTracked>;
   SpendingTrackedData: ResolverTypeWrapper<SpendingTrackedData>;
+  SpendingTrackedDataUser: ResolverTypeWrapper<SpendingTrackedDataUser>;
+  SpendingTrackedDataUser_filter: SpendingTrackedDataUser_filter;
+  SpendingTrackedDataUser_orderBy: SpendingTrackedDataUser_orderBy;
   SpendingTrackedData_filter: SpendingTrackedData_filter;
   SpendingTrackedData_orderBy: SpendingTrackedData_orderBy;
   SpendingTracked_filter: SpendingTracked_filter;
@@ -2919,6 +3199,8 @@ export type ResolversTypes = ResolversObject<{
   TierUpdated_orderBy: TierUpdated_orderBy;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']['output']>;
   TotalSpendingStats: ResolverTypeWrapper<TotalSpendingStats>;
+  TotalSpendingStatsUser: ResolverTypeWrapper<TotalSpendingStatsUser>;
+  TotalSpendingStatsUser_filter: TotalSpendingStatsUser_filter;
   TotalSpendingStats_filter: TotalSpendingStats_filter;
   UserSubscribed: ResolverTypeWrapper<UserSubscribed>;
   UserSubscribed_filter: UserSubscribed_filter;
@@ -2956,6 +3238,9 @@ export type ResolversTypes = ResolversObject<{
   SubscriberAdded: ResolverTypeWrapper<SubscriberAdded>;
   SubscriberAdded_filter: SubscriberAdded_filter;
   SubscriberAdded_orderBy: SubscriberAdded_orderBy;
+  TokenBurn: ResolverTypeWrapper<TokenBurn>;
+  TokenBurn_filter: TokenBurn_filter;
+  TokenBurn_orderBy: TokenBurn_orderBy;
   Transfer: ResolverTypeWrapper<Transfer>;
   Transfer_filter: Transfer_filter;
   Transfer_orderBy: Transfer_orderBy;
@@ -2991,6 +3276,8 @@ export type ResolversParentTypes = ResolversObject<{
   RewardTierReached_filter: RewardTierReached_filter;
   SpendingTracked: SpendingTracked;
   SpendingTrackedData: SpendingTrackedData;
+  SpendingTrackedDataUser: SpendingTrackedDataUser;
+  SpendingTrackedDataUser_filter: SpendingTrackedDataUser_filter;
   SpendingTrackedData_filter: SpendingTrackedData_filter;
   SpendingTracked_filter: SpendingTracked_filter;
   String: Scalars['String']['output'];
@@ -3000,6 +3287,8 @@ export type ResolversParentTypes = ResolversObject<{
   TierUpdated_filter: TierUpdated_filter;
   Timestamp: Scalars['Timestamp']['output'];
   TotalSpendingStats: TotalSpendingStats;
+  TotalSpendingStatsUser: TotalSpendingStatsUser;
+  TotalSpendingStatsUser_filter: TotalSpendingStatsUser_filter;
   TotalSpendingStats_filter: TotalSpendingStats_filter;
   UserSubscribed: UserSubscribed;
   UserSubscribed_filter: UserSubscribed_filter;
@@ -3025,6 +3314,8 @@ export type ResolversParentTypes = ResolversObject<{
   OwnershipTransferred_filter: OwnershipTransferred_filter;
   SubscriberAdded: SubscriberAdded;
   SubscriberAdded_filter: SubscriberAdded_filter;
+  TokenBurn: TokenBurn;
+  TokenBurn_filter: TokenBurn_filter;
   Transfer: Transfer;
   Transfer_filter: Transfer_filter;
   VoucherDiscountsSet: VoucherDiscountsSet;
@@ -3064,11 +3355,14 @@ export type QueryResolvers<ContextType = MeshContext, ParentType extends Resolve
   spendingTrackeds?: Resolver<Array<ResolversTypes['SpendingTracked']>, ParentType, ContextType, RequireFields<QueryspendingTrackedsArgs, 'skip' | 'first' | 'subgraphError'>>;
   spendingTrackedData?: Resolver<Maybe<ResolversTypes['SpendingTrackedData']>, ParentType, ContextType, RequireFields<QueryspendingTrackedDataArgs, 'id' | 'subgraphError'>>;
   spendingTrackedDatas?: Resolver<Array<ResolversTypes['SpendingTrackedData']>, ParentType, ContextType, RequireFields<QueryspendingTrackedDatasArgs, 'skip' | 'first' | 'subgraphError'>>;
+  spendingTrackedDataUser?: Resolver<Maybe<ResolversTypes['SpendingTrackedDataUser']>, ParentType, ContextType, RequireFields<QueryspendingTrackedDataUserArgs, 'id' | 'subgraphError'>>;
+  spendingTrackedDataUsers?: Resolver<Array<ResolversTypes['SpendingTrackedDataUser']>, ParentType, ContextType, RequireFields<QueryspendingTrackedDataUsersArgs, 'skip' | 'first' | 'subgraphError'>>;
   tierUpdated?: Resolver<Maybe<ResolversTypes['TierUpdated']>, ParentType, ContextType, RequireFields<QuerytierUpdatedArgs, 'id' | 'subgraphError'>>;
   tierUpdateds?: Resolver<Array<ResolversTypes['TierUpdated']>, ParentType, ContextType, RequireFields<QuerytierUpdatedsArgs, 'skip' | 'first' | 'subgraphError'>>;
   userSubscribed?: Resolver<Maybe<ResolversTypes['UserSubscribed']>, ParentType, ContextType, RequireFields<QueryuserSubscribedArgs, 'id' | 'subgraphError'>>;
   userSubscribeds?: Resolver<Array<ResolversTypes['UserSubscribed']>, ParentType, ContextType, RequireFields<QueryuserSubscribedsArgs, 'skip' | 'first' | 'subgraphError'>>;
   totalSpendingStats_collection?: Resolver<Array<ResolversTypes['TotalSpendingStats']>, ParentType, ContextType, RequireFields<QuerytotalSpendingStats_collectionArgs, 'skip' | 'first' | 'interval' | 'subgraphError'>>;
+  totalSpendingStatsUsers?: Resolver<Array<ResolversTypes['TotalSpendingStatsUser']>, ParentType, ContextType, RequireFields<QuerytotalSpendingStatsUsersArgs, 'skip' | 'first' | 'interval' | 'subgraphError'>>;
   merchantSearch?: Resolver<Array<ResolversTypes['Merchant']>, ParentType, ContextType, RequireFields<QuerymerchantSearchArgs, 'text' | 'first' | 'skip' | 'subgraphError'>>;
   _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
   airdropCompleted?: Resolver<Maybe<ResolversTypes['AirdropCompleted']>, ParentType, ContextType, RequireFields<QueryairdropCompletedArgs, 'id' | 'subgraphError'>>;
@@ -3091,6 +3385,8 @@ export type QueryResolvers<ContextType = MeshContext, ParentType extends Resolve
   ownershipTransferreds?: Resolver<Array<ResolversTypes['OwnershipTransferred']>, ParentType, ContextType, RequireFields<QueryownershipTransferredsArgs, 'skip' | 'first' | 'subgraphError'>>;
   subscriberAdded?: Resolver<Maybe<ResolversTypes['SubscriberAdded']>, ParentType, ContextType, RequireFields<QuerysubscriberAddedArgs, 'id' | 'subgraphError'>>;
   subscriberAddeds?: Resolver<Array<ResolversTypes['SubscriberAdded']>, ParentType, ContextType, RequireFields<QuerysubscriberAddedsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  tokenBurn?: Resolver<Maybe<ResolversTypes['TokenBurn']>, ParentType, ContextType, RequireFields<QuerytokenBurnArgs, 'id' | 'subgraphError'>>;
+  tokenBurns?: Resolver<Array<ResolversTypes['TokenBurn']>, ParentType, ContextType, RequireFields<QuerytokenBurnsArgs, 'skip' | 'first' | 'subgraphError'>>;
   transfer?: Resolver<Maybe<ResolversTypes['Transfer']>, ParentType, ContextType, RequireFields<QuerytransferArgs, 'id' | 'subgraphError'>>;
   transfers?: Resolver<Array<ResolversTypes['Transfer']>, ParentType, ContextType, RequireFields<QuerytransfersArgs, 'skip' | 'first' | 'subgraphError'>>;
   voucherDiscountsSet?: Resolver<Maybe<ResolversTypes['VoucherDiscountsSet']>, ParentType, ContextType, RequireFields<QueryvoucherDiscountsSetArgs, 'id' | 'subgraphError'>>;
@@ -3114,11 +3410,14 @@ export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends 
   spendingTrackeds?: SubscriptionResolver<Array<ResolversTypes['SpendingTracked']>, "spendingTrackeds", ParentType, ContextType, RequireFields<SubscriptionspendingTrackedsArgs, 'skip' | 'first' | 'subgraphError'>>;
   spendingTrackedData?: SubscriptionResolver<Maybe<ResolversTypes['SpendingTrackedData']>, "spendingTrackedData", ParentType, ContextType, RequireFields<SubscriptionspendingTrackedDataArgs, 'id' | 'subgraphError'>>;
   spendingTrackedDatas?: SubscriptionResolver<Array<ResolversTypes['SpendingTrackedData']>, "spendingTrackedDatas", ParentType, ContextType, RequireFields<SubscriptionspendingTrackedDatasArgs, 'skip' | 'first' | 'subgraphError'>>;
+  spendingTrackedDataUser?: SubscriptionResolver<Maybe<ResolversTypes['SpendingTrackedDataUser']>, "spendingTrackedDataUser", ParentType, ContextType, RequireFields<SubscriptionspendingTrackedDataUserArgs, 'id' | 'subgraphError'>>;
+  spendingTrackedDataUsers?: SubscriptionResolver<Array<ResolversTypes['SpendingTrackedDataUser']>, "spendingTrackedDataUsers", ParentType, ContextType, RequireFields<SubscriptionspendingTrackedDataUsersArgs, 'skip' | 'first' | 'subgraphError'>>;
   tierUpdated?: SubscriptionResolver<Maybe<ResolversTypes['TierUpdated']>, "tierUpdated", ParentType, ContextType, RequireFields<SubscriptiontierUpdatedArgs, 'id' | 'subgraphError'>>;
   tierUpdateds?: SubscriptionResolver<Array<ResolversTypes['TierUpdated']>, "tierUpdateds", ParentType, ContextType, RequireFields<SubscriptiontierUpdatedsArgs, 'skip' | 'first' | 'subgraphError'>>;
   userSubscribed?: SubscriptionResolver<Maybe<ResolversTypes['UserSubscribed']>, "userSubscribed", ParentType, ContextType, RequireFields<SubscriptionuserSubscribedArgs, 'id' | 'subgraphError'>>;
   userSubscribeds?: SubscriptionResolver<Array<ResolversTypes['UserSubscribed']>, "userSubscribeds", ParentType, ContextType, RequireFields<SubscriptionuserSubscribedsArgs, 'skip' | 'first' | 'subgraphError'>>;
   totalSpendingStats_collection?: SubscriptionResolver<Array<ResolversTypes['TotalSpendingStats']>, "totalSpendingStats_collection", ParentType, ContextType, RequireFields<SubscriptiontotalSpendingStats_collectionArgs, 'skip' | 'first' | 'interval' | 'subgraphError'>>;
+  totalSpendingStatsUsers?: SubscriptionResolver<Array<ResolversTypes['TotalSpendingStatsUser']>, "totalSpendingStatsUsers", ParentType, ContextType, RequireFields<SubscriptiontotalSpendingStatsUsersArgs, 'skip' | 'first' | 'interval' | 'subgraphError'>>;
   _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
   airdropCompleted?: SubscriptionResolver<Maybe<ResolversTypes['AirdropCompleted']>, "airdropCompleted", ParentType, ContextType, RequireFields<SubscriptionairdropCompletedArgs, 'id' | 'subgraphError'>>;
   airdropCompleteds?: SubscriptionResolver<Array<ResolversTypes['AirdropCompleted']>, "airdropCompleteds", ParentType, ContextType, RequireFields<SubscriptionairdropCompletedsArgs, 'skip' | 'first' | 'subgraphError'>>;
@@ -3140,6 +3439,8 @@ export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends 
   ownershipTransferreds?: SubscriptionResolver<Array<ResolversTypes['OwnershipTransferred']>, "ownershipTransferreds", ParentType, ContextType, RequireFields<SubscriptionownershipTransferredsArgs, 'skip' | 'first' | 'subgraphError'>>;
   subscriberAdded?: SubscriptionResolver<Maybe<ResolversTypes['SubscriberAdded']>, "subscriberAdded", ParentType, ContextType, RequireFields<SubscriptionsubscriberAddedArgs, 'id' | 'subgraphError'>>;
   subscriberAddeds?: SubscriptionResolver<Array<ResolversTypes['SubscriberAdded']>, "subscriberAddeds", ParentType, ContextType, RequireFields<SubscriptionsubscriberAddedsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  tokenBurn?: SubscriptionResolver<Maybe<ResolversTypes['TokenBurn']>, "tokenBurn", ParentType, ContextType, RequireFields<SubscriptiontokenBurnArgs, 'id' | 'subgraphError'>>;
+  tokenBurns?: SubscriptionResolver<Array<ResolversTypes['TokenBurn']>, "tokenBurns", ParentType, ContextType, RequireFields<SubscriptiontokenBurnsArgs, 'skip' | 'first' | 'subgraphError'>>;
   transfer?: SubscriptionResolver<Maybe<ResolversTypes['Transfer']>, "transfer", ParentType, ContextType, RequireFields<SubscriptiontransferArgs, 'id' | 'subgraphError'>>;
   transfers?: SubscriptionResolver<Array<ResolversTypes['Transfer']>, "transfers", ParentType, ContextType, RequireFields<SubscriptiontransfersArgs, 'skip' | 'first' | 'subgraphError'>>;
   voucherDiscountsSet?: SubscriptionResolver<Maybe<ResolversTypes['VoucherDiscountsSet']>, "voucherDiscountsSet", ParentType, ContextType, RequireFields<SubscriptionvoucherDiscountsSetArgs, 'id' | 'subgraphError'>>;
@@ -3218,6 +3519,14 @@ export type SpendingTrackedDataResolvers<ContextType = MeshContext, ParentType e
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type SpendingTrackedDataUserResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['SpendingTrackedDataUser'] = ResolversParentTypes['SpendingTrackedDataUser']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['Int8'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['Timestamp'], ParentType, ContextType>;
+  subscriber?: Resolver<ResolversTypes['Subscriber'], ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type SubscriberResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Subscriber'] = ResolversParentTypes['Subscriber']> = ResolversObject<{
   id?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   merchants?: Resolver<Array<ResolversTypes['MerchantSubscriber']>, ParentType, ContextType, RequireFields<SubscribermerchantsArgs, 'skip' | 'first'>>;
@@ -3243,6 +3552,15 @@ export type TotalSpendingStatsResolvers<ContextType = MeshContext, ParentType ex
   id?: Resolver<ResolversTypes['Int8'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['Timestamp'], ParentType, ContextType>;
   merchant?: Resolver<ResolversTypes['Merchant'], ParentType, ContextType>;
+  totalAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  count?: Resolver<ResolversTypes['Int8'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TotalSpendingStatsUserResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['TotalSpendingStatsUser'] = ResolversParentTypes['TotalSpendingStatsUser']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['Int8'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['Timestamp'], ParentType, ContextType>;
+  subscriber?: Resolver<ResolversTypes['Subscriber'], ParentType, ContextType>;
   totalAmount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['Int8'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -3278,6 +3596,7 @@ export type AirdropCompletedResolvers<ContextType = MeshContext, ParentType exte
   requestId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   selectedRecipient?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   voucherId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  merchant?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   blockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   blockTimestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   transactionHash?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
@@ -3375,6 +3694,15 @@ export type SubscriberAddedResolvers<ContextType = MeshContext, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type TokenBurnResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['TokenBurn'] = ResolversParentTypes['TokenBurn']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
+  voucherId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  blockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  blockTimestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  transactionHash?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type TransferResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Transfer'] = ResolversParentTypes['Transfer']> = ResolversObject<{
   id?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
   from?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
@@ -3419,10 +3747,12 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   RewardTierReached?: RewardTierReachedResolvers<ContextType>;
   SpendingTracked?: SpendingTrackedResolvers<ContextType>;
   SpendingTrackedData?: SpendingTrackedDataResolvers<ContextType>;
+  SpendingTrackedDataUser?: SpendingTrackedDataUserResolvers<ContextType>;
   Subscriber?: SubscriberResolvers<ContextType>;
   TierUpdated?: TierUpdatedResolvers<ContextType>;
   Timestamp?: GraphQLScalarType;
   TotalSpendingStats?: TotalSpendingStatsResolvers<ContextType>;
+  TotalSpendingStatsUser?: TotalSpendingStatsUserResolvers<ContextType>;
   UserSubscribed?: UserSubscribedResolvers<ContextType>;
   _Block_?: _Block_Resolvers<ContextType>;
   _Meta_?: _Meta_Resolvers<ContextType>;
@@ -3436,6 +3766,7 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   OwnershipTransferRequested?: OwnershipTransferRequestedResolvers<ContextType>;
   OwnershipTransferred?: OwnershipTransferredResolvers<ContextType>;
   SubscriberAdded?: SubscriberAddedResolvers<ContextType>;
+  TokenBurn?: TokenBurnResolvers<ContextType>;
   Transfer?: TransferResolvers<ContextType>;
   VoucherDiscountsSet?: VoucherDiscountsSetResolvers<ContextType>;
   randomRecipientSelected?: randomRecipientSelectedResolvers<ContextType>;
@@ -3533,10 +3864,11 @@ const merger = new(StitchingMerger as any)({
         store: rootStore.child('stitchingMerger')
       })
 const documentHashMap = {
-        "017155282926f772ec9585efbe62abf6036687efb8b74dd123849f71f4f45184": GetAirdropCompletedsDocument,
-"21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a": GetDailySpendingsMerchantDocument,
+        "21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a": GetDailySpendingsMerchantDocument,
+"3c3ecddb4efcffbef0fe60922c7cfd6a60f1b690c819af8defab7de8ee5eb4e5": GetAirdropCompletedsDocument,
+"b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b": GetMerchantSubscribersDocument,
 "8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc": GetMerchantDashboardDataDocument,
-"b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b": GetMerchantSubscribersDocument
+"6473788b7e690bf8ccfb761ab2ff7bf45ba62ca0f5219f6522de60d3dec67499": GetSubscriberSpendingsDocument
       }
 additionalEnvelopPlugins.push(usePersistedOperations({
         getPersistedOperation(key) {
@@ -3558,19 +3890,26 @@ additionalEnvelopPlugins.push(usePersistedOperations({
     get documents() {
       return [
       {
-        document: GetAirdropCompletedsDocument,
-        get rawSDL() {
-          return printWithCache(GetAirdropCompletedsDocument);
-        },
-        location: 'GetAirdropCompletedsDocument.graphql',
-        sha256Hash: '017155282926f772ec9585efbe62abf6036687efb8b74dd123849f71f4f45184'
-      },{
         document: GetDailySpendingsMerchantDocument,
         get rawSDL() {
           return printWithCache(GetDailySpendingsMerchantDocument);
         },
         location: 'GetDailySpendingsMerchantDocument.graphql',
         sha256Hash: '21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a'
+      },{
+        document: GetAirdropCompletedsDocument,
+        get rawSDL() {
+          return printWithCache(GetAirdropCompletedsDocument);
+        },
+        location: 'GetAirdropCompletedsDocument.graphql',
+        sha256Hash: '3c3ecddb4efcffbef0fe60922c7cfd6a60f1b690c819af8defab7de8ee5eb4e5'
+      },{
+        document: GetMerchantSubscribersDocument,
+        get rawSDL() {
+          return printWithCache(GetMerchantSubscribersDocument);
+        },
+        location: 'GetMerchantSubscribersDocument.graphql',
+        sha256Hash: 'b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b'
       },{
         document: GetMerchantDashboardDataDocument,
         get rawSDL() {
@@ -3579,12 +3918,12 @@ additionalEnvelopPlugins.push(usePersistedOperations({
         location: 'GetMerchantDashboardDataDocument.graphql',
         sha256Hash: '8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc'
       },{
-        document: GetMerchantSubscribersDocument,
+        document: GetSubscriberSpendingsDocument,
         get rawSDL() {
-          return printWithCache(GetMerchantSubscribersDocument);
+          return printWithCache(GetSubscriberSpendingsDocument);
         },
-        location: 'GetMerchantSubscribersDocument.graphql',
-        sha256Hash: 'b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b'
+        location: 'GetSubscriberSpendingsDocument.graphql',
+        sha256Hash: '6473788b7e690bf8ccfb761ab2ff7bf45ba62ca0f5219f6522de60d3dec67499'
       }
     ];
     },
@@ -3639,10 +3978,12 @@ export function getBuiltGraphSDK<TGlobalContext = any, TOperationContext = any>(
   const sdkRequester$ = getBuiltGraphClient().then(({ sdkRequesterFactory }) => sdkRequesterFactory(globalContext));
   return getSdk<TOperationContext, TGlobalContext>((...args) => sdkRequester$.then(sdkRequester => sdkRequester(...args)));
 }
-export type GetAirdropCompletedsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAirdropCompletedsQueryVariables = Exact<{
+  merchantId?: InputMaybe<Scalars['Bytes']['input']>;
+}>;
 
 
-export type GetAirdropCompletedsQuery = { airdropCompleteds: Array<Pick<AirdropCompleted, 'selectedRecipient' | 'voucherId' | 'transactionHash'>> };
+export type GetAirdropCompletedsQuery = { airdropCompleteds: Array<Pick<AirdropCompleted, 'merchant' | 'selectedRecipient' | 'blockTimestamp'>> };
 
 export type GetDailySpendingsMerchantQueryVariables = Exact<{
   merchantId?: InputMaybe<Scalars['Bytes']['input']>;
@@ -3668,13 +4009,23 @@ export type GetMerchantSubscribersQueryVariables = Exact<{
 
 export type GetMerchantSubscribersQuery = { subscribers: Array<Pick<Subscriber, 'id'>> };
 
+export type GetSubscriberSpendingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSubscriberSpendingsQuery = { spendingTrackeds: Array<Pick<SpendingTracked, 'id' | 'merchant' | 'transactionHash' | 'user' | 'amountSpent' | 'blockTimestamp'>> };
+
 
 export const GetAirdropCompletedsDocument = gql`
-    query GetAirdropCompleteds {
-  airdropCompleteds {
+    query GetAirdropCompleteds($merchantId: Bytes) {
+  airdropCompleteds(
+    orderBy: blockTimestamp
+    first: 5
+    orderDirection: desc
+    where: {merchant: $merchantId}
+  ) {
+    merchant
     selectedRecipient
-    voucherId
-    transactionHash
+    blockTimestamp
   }
 }
     ` as unknown as DocumentNode<GetAirdropCompletedsQuery, GetAirdropCompletedsQueryVariables>;
@@ -3720,6 +4071,19 @@ export const GetMerchantSubscribersDocument = gql`
   }
 }
     ` as unknown as DocumentNode<GetMerchantSubscribersQuery, GetMerchantSubscribersQueryVariables>;
+export const GetSubscriberSpendingsDocument = gql`
+    query GetSubscriberSpendings {
+  spendingTrackeds {
+    id
+    merchant
+    transactionHash
+    user
+    amountSpent
+    blockTimestamp
+  }
+}
+    ` as unknown as DocumentNode<GetSubscriberSpendingsQuery, GetSubscriberSpendingsQueryVariables>;
+
 
 
 
@@ -3739,6 +4103,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     GetMerchantSubscribers(variables?: GetMerchantSubscribersQueryVariables, options?: C): Promise<GetMerchantSubscribersQuery> {
       return requester<GetMerchantSubscribersQuery, GetMerchantSubscribersQueryVariables>(GetMerchantSubscribersDocument, variables, options) as Promise<GetMerchantSubscribersQuery>;
+    },
+    GetSubscriberSpendings(variables?: GetSubscriberSpendingsQueryVariables, options?: C): Promise<GetSubscriberSpendingsQuery> {
+      return requester<GetSubscriberSpendingsQuery, GetSubscriberSpendingsQueryVariables>(GetSubscriberSpendingsDocument, variables, options) as Promise<GetSubscriberSpendingsQuery>;
     }
   };
 }

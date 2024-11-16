@@ -1,7 +1,12 @@
-query GetAirdropCompleteds {
-  airdropCompleteds {
+query GetAirdropCompleteds($merchantId: Bytes) {
+  airdropCompleteds(
+    orderBy: blockTimestamp
+    first: 5
+    orderDirection: desc
+    where: { merchant: $merchantId }
+  ) {
+    merchant
     selectedRecipient
-    voucherId
-    transactionHash
+    blockTimestamp
   }
 }

@@ -45,7 +45,7 @@ export default function MerchantCard({
   const url =
     "https://api.studio.thegraph.com/query/92897/perklysubscription/version/latest";
   const { data, refetch } = useQuery<Transaction>({
-    queryKey: ["data", merchantAddress],
+    queryKey: ["MerchantData", merchantAddress],
     async queryFn() {
       return await request(url, query);
     },

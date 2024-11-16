@@ -280,12 +280,16 @@ export type Query = {
   spendingTrackeds: Array<SpendingTracked>;
   spendingTrackedData?: Maybe<SpendingTrackedData>;
   spendingTrackedDatas: Array<SpendingTrackedData>;
+  spendingTrackedDataUser?: Maybe<SpendingTrackedDataUser>;
+  spendingTrackedDataUsers: Array<SpendingTrackedDataUser>;
   tierUpdated?: Maybe<TierUpdated>;
   tierUpdateds: Array<TierUpdated>;
   userSubscribed?: Maybe<UserSubscribed>;
   userSubscribeds: Array<UserSubscribed>;
   /** Collection of aggregated `TotalSpendingStats` values */
   totalSpendingStats_collection: Array<TotalSpendingStats>;
+  /** Collection of aggregated `TotalSpendingStatsUser` values */
+  totalSpendingStatsUsers: Array<TotalSpendingStatsUser>;
   merchantSearch: Array<Merchant>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
@@ -418,6 +422,24 @@ export type QueryspendingTrackedDatasArgs = {
 };
 
 
+export type QueryspendingTrackedDataUserArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryspendingTrackedDataUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<SpendingTrackedDataUser_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<SpendingTrackedDataUser_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type QuerytierUpdatedArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -459,6 +481,16 @@ export type QuerytotalSpendingStats_collectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   interval: Aggregation_interval;
   where?: InputMaybe<TotalSpendingStats_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytotalSpendingStatsUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  interval: Aggregation_interval;
+  where?: InputMaybe<TotalSpendingStatsUser_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -584,6 +616,72 @@ export type SpendingTrackedData = {
   merchant: Merchant;
   amount: Scalars['BigInt']['output'];
 };
+
+export type SpendingTrackedDataUser = {
+  id: Scalars['Int8']['output'];
+  timestamp: Scalars['Timestamp']['output'];
+  subscriber: Subscriber;
+  amount: Scalars['BigInt']['output'];
+};
+
+export type SpendingTrackedDataUser_filter = {
+  id?: InputMaybe<Scalars['Int8']['input']>;
+  id_not?: InputMaybe<Scalars['Int8']['input']>;
+  id_gt?: InputMaybe<Scalars['Int8']['input']>;
+  id_lt?: InputMaybe<Scalars['Int8']['input']>;
+  id_gte?: InputMaybe<Scalars['Int8']['input']>;
+  id_lte?: InputMaybe<Scalars['Int8']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
+  id_not_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
+  timestamp?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_not?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  subscriber?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not?: InputMaybe<Scalars['String']['input']>;
+  subscriber_gt?: InputMaybe<Scalars['String']['input']>;
+  subscriber_lt?: InputMaybe<Scalars['String']['input']>;
+  subscriber_gte?: InputMaybe<Scalars['String']['input']>;
+  subscriber_lte?: InputMaybe<Scalars['String']['input']>;
+  subscriber_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  subscriber_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  subscriber_contains?: InputMaybe<Scalars['String']['input']>;
+  subscriber_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_contains?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_starts_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_ends_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  subscriber_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  subscriber_?: InputMaybe<Subscriber_filter>;
+  amount?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_not?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  amount_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  amount_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<SpendingTrackedDataUser_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<SpendingTrackedDataUser_filter>>>;
+};
+
+export type SpendingTrackedDataUser_orderBy =
+  | 'id'
+  | 'timestamp'
+  | 'subscriber'
+  | 'subscriber__id'
+  | 'amount';
 
 export type SpendingTrackedData_filter = {
   id?: InputMaybe<Scalars['Int8']['input']>;
@@ -776,12 +874,16 @@ export type Subscription = {
   spendingTrackeds: Array<SpendingTracked>;
   spendingTrackedData?: Maybe<SpendingTrackedData>;
   spendingTrackedDatas: Array<SpendingTrackedData>;
+  spendingTrackedDataUser?: Maybe<SpendingTrackedDataUser>;
+  spendingTrackedDataUsers: Array<SpendingTrackedDataUser>;
   tierUpdated?: Maybe<TierUpdated>;
   tierUpdateds: Array<TierUpdated>;
   userSubscribed?: Maybe<UserSubscribed>;
   userSubscribeds: Array<UserSubscribed>;
   /** Collection of aggregated `TotalSpendingStats` values */
   totalSpendingStats_collection: Array<TotalSpendingStats>;
+  /** Collection of aggregated `TotalSpendingStatsUser` values */
+  totalSpendingStatsUsers: Array<TotalSpendingStatsUser>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -913,6 +1015,24 @@ export type SubscriptionspendingTrackedDatasArgs = {
 };
 
 
+export type SubscriptionspendingTrackedDataUserArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionspendingTrackedDataUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<SpendingTrackedDataUser_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<SpendingTrackedDataUser_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type SubscriptiontierUpdatedArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -954,6 +1074,16 @@ export type SubscriptiontotalSpendingStats_collectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   interval: Aggregation_interval;
   where?: InputMaybe<TotalSpendingStats_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontotalSpendingStatsUsersArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  interval: Aggregation_interval;
+  where?: InputMaybe<TotalSpendingStatsUser_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -1057,6 +1187,35 @@ export type TotalSpendingStats = {
   merchant: Merchant;
   totalAmount: Scalars['BigInt']['output'];
   count: Scalars['Int8']['output'];
+};
+
+export type TotalSpendingStatsUser = {
+  id: Scalars['Int8']['output'];
+  timestamp: Scalars['Timestamp']['output'];
+  subscriber: Subscriber;
+  totalAmount: Scalars['BigInt']['output'];
+  count: Scalars['Int8']['output'];
+};
+
+export type TotalSpendingStatsUser_filter = {
+  id?: InputMaybe<Scalars['Int8']['input']>;
+  id_gt?: InputMaybe<Scalars['Int8']['input']>;
+  id_lt?: InputMaybe<Scalars['Int8']['input']>;
+  id_gte?: InputMaybe<Scalars['Int8']['input']>;
+  id_lte?: InputMaybe<Scalars['Int8']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Int8']['input']>>;
+  timestamp?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lt?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_gte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_lte?: InputMaybe<Scalars['Timestamp']['input']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  subscriber?: InputMaybe<Scalars['String']['input']>;
+  subscriber_?: InputMaybe<Subscriber_filter>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<TotalSpendingStatsUser_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TotalSpendingStatsUser_filter>>>;
 };
 
 export type TotalSpendingStats_filter = {
@@ -1223,6 +1382,10 @@ export type _SubgraphErrorPolicy_ =
   /** null **/
   spendingTrackedDatas: InContextSdkMethod<Query['spendingTrackedDatas'], QueryspendingTrackedDatasArgs, MeshContext>,
   /** null **/
+  spendingTrackedDataUser: InContextSdkMethod<Query['spendingTrackedDataUser'], QueryspendingTrackedDataUserArgs, MeshContext>,
+  /** null **/
+  spendingTrackedDataUsers: InContextSdkMethod<Query['spendingTrackedDataUsers'], QueryspendingTrackedDataUsersArgs, MeshContext>,
+  /** null **/
   tierUpdated: InContextSdkMethod<Query['tierUpdated'], QuerytierUpdatedArgs, MeshContext>,
   /** null **/
   tierUpdateds: InContextSdkMethod<Query['tierUpdateds'], QuerytierUpdatedsArgs, MeshContext>,
@@ -1232,6 +1395,8 @@ export type _SubgraphErrorPolicy_ =
   userSubscribeds: InContextSdkMethod<Query['userSubscribeds'], QueryuserSubscribedsArgs, MeshContext>,
   /** Collection of aggregated `TotalSpendingStats` values **/
   totalSpendingStats_collection: InContextSdkMethod<Query['totalSpendingStats_collection'], QuerytotalSpendingStats_collectionArgs, MeshContext>,
+  /** Collection of aggregated `TotalSpendingStatsUser` values **/
+  totalSpendingStatsUsers: InContextSdkMethod<Query['totalSpendingStatsUsers'], QuerytotalSpendingStatsUsersArgs, MeshContext>,
   /** null **/
   merchantSearch: InContextSdkMethod<Query['merchantSearch'], QuerymerchantSearchArgs, MeshContext>,
   /** Access to subgraph metadata **/
@@ -1272,6 +1437,10 @@ export type _SubgraphErrorPolicy_ =
   /** null **/
   spendingTrackedDatas: InContextSdkMethod<Subscription['spendingTrackedDatas'], SubscriptionspendingTrackedDatasArgs, MeshContext>,
   /** null **/
+  spendingTrackedDataUser: InContextSdkMethod<Subscription['spendingTrackedDataUser'], SubscriptionspendingTrackedDataUserArgs, MeshContext>,
+  /** null **/
+  spendingTrackedDataUsers: InContextSdkMethod<Subscription['spendingTrackedDataUsers'], SubscriptionspendingTrackedDataUsersArgs, MeshContext>,
+  /** null **/
   tierUpdated: InContextSdkMethod<Subscription['tierUpdated'], SubscriptiontierUpdatedArgs, MeshContext>,
   /** null **/
   tierUpdateds: InContextSdkMethod<Subscription['tierUpdateds'], SubscriptiontierUpdatedsArgs, MeshContext>,
@@ -1281,6 +1450,8 @@ export type _SubgraphErrorPolicy_ =
   userSubscribeds: InContextSdkMethod<Subscription['userSubscribeds'], SubscriptionuserSubscribedsArgs, MeshContext>,
   /** Collection of aggregated `TotalSpendingStats` values **/
   totalSpendingStats_collection: InContextSdkMethod<Subscription['totalSpendingStats_collection'], SubscriptiontotalSpendingStats_collectionArgs, MeshContext>,
+  /** Collection of aggregated `TotalSpendingStatsUser` values **/
+  totalSpendingStatsUsers: InContextSdkMethod<Subscription['totalSpendingStatsUsers'], SubscriptiontotalSpendingStatsUsersArgs, MeshContext>,
   /** Access to subgraph metadata **/
   _meta: InContextSdkMethod<Subscription['_meta'], Subscription_metaArgs, MeshContext>
   };
