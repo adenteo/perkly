@@ -3,11 +3,12 @@ sources:
     handler:
       graphql:
         endpoint: https://api.studio.thegraph.com/query/92897/perklysubscription/version/latest
-  - name: chainlink
+  - name: perklyVoucher
     handler:
       graphql:
-        endpoint: https://api.studio.thegraph.com/query/92897/chainlink/version/latest
+        endpoint: https://api.studio.thegraph.com/query/92897/perklyvoucher/version/latest
 documents:
   - ./graphql/GetDailySpendingsMerchant.gql
   - ./graphql/GetMerchantDashboardData.gql
   - ./graphql/GetMerchantSubscribers.gql
+  - ./graphql/GetAirdropCompleteds.gql

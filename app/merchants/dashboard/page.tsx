@@ -29,10 +29,12 @@ export default function Page() {
   const [merchant, setMerchant] = useState<any>(null);
   const [ensNames, setEnsNames] = useState<{ [address: string]: string }>({});
   const [numWinners, setNumWinners] = useState(1);
+  const [isAirdropping, setIsAirdropping] = useState(false);
   const {
     GetDailySpendingsMerchant,
     GetMerchantDashboardData,
     GetMerchantSubscribers,
+    GetAirdropCompleteds,
   } = getBuiltGraphSDK();
 
   interface Transaction {
@@ -103,15 +105,17 @@ export default function Page() {
   const totalSubscriptions = data?.userSubscribeds.length || 0;
 
   const handleInitiateAirdrop = async () => {
+    setIsAirdropping(true);
+    const data = await GetMerchantSubscribers({
+      merchantId: client.account.address,
+    });
+    const subscriberList = data.subscribers.map((s) => s.id);
+    console.log(subscriberList);
     try {
       console.log("clicked");
       for (let i = 0; i < numWinners; i++) {
         const txn = await initiateAirdrop(
-          [
-            "0x34979173ed20eb3db3ed00b689da5404199e28ad",
-            "0x6e8f63FB1009f2717aE49F288A9407C3557D428C",
-            "0x72C209D54f5b0772b50FEfe7107E3e6ED63194fa",
-          ],
+          subscriberList,
           "bafkreigqpzbkmexkmx42txx5tgoaqaasme7zv46u43xxlpid7spov3vasi"
         );
 
@@ -130,6 +134,7 @@ export default function Page() {
     } catch (error) {
       console.error("Error initiating airdrop:", error);
     }
+    setIsAirdropping(false);
   };
 
   useEffect(() => {
@@ -138,10 +143,7 @@ export default function Page() {
     }
 
     const checkMerchant = async () => {
-      // const data = await GetMerchantSubscribers({
-      //   merchantId: client.account.address,
-      // });
-      // const subscriberList = data.subscribers.map((s) => s.id);
+      const data = await GetAirdropCompleteds();
       const existingMerchant = await fetchMerchant(client.account.address);
       if (existingMerchant) {
         console.log("Existing Merchant", existingMerchant);
@@ -216,11 +218,11 @@ export default function Page() {
                 type="number"
                 value={numWinners}
                 onChange={(e) => setNumWinners(Number(e.target.value))}
-                defaultValue={1}
                 className="w-20 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
             <Button
+              disabled={isAirdropping}
               className="w-fit"
               onClick={async () => {
                 await handleInitiateAirdrop();
@@ -228,6 +230,9 @@ export default function Page() {
             >
               Initiate Airdrop
             </Button>
+            <Card className="mt-4 p-6">
+              <CardTitle>Recent Airdrops</CardTitle>
+            </Card>
           </div>
         </CardContent>
       </Card>

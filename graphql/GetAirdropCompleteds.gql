@@ -1,0 +1,7 @@
+query GetAirdropCompleteds {
+  airdropCompleteds {
+    selectedRecipient
+    voucherId
+    transactionHash
+  }
+}
