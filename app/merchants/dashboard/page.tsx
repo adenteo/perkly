@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // @ts-nocheck
 "use client";
 
 import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import { useQuery } from "@tanstack/react-query";
 import request, { gql } from "graphql-request";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState, useMemo } from "react";
 import { getEnsName } from "viem/actions";
 import { publicClient } from "./client";
+import { ethers } from "ethers";
+import useMultiBaas from "@/app/hooks/use-multibaas";
 
 import { getBuiltGraphSDK } from "../../../.graphclient";
 import {
@@ -19,9 +23,12 @@ import {
 import { fetchMerchant } from "@/app/actions";
 
 export default function Page() {
+  const { initiateAirdrop } = useMultiBaas();
+
   const { client } = useSmartWallets();
   const [merchant, setMerchant] = useState<any>(null);
   const [ensNames, setEnsNames] = useState<{ [address: string]: string }>({});
+  const [numWinners, setNumWinners] = useState(1);
   const {
     GetDailySpendingsMerchant,
     GetMerchantDashboardData,
@@ -95,6 +102,36 @@ export default function Page() {
 
   const totalSubscriptions = data?.userSubscribeds.length || 0;
 
+  const handleInitiateAirdrop = async () => {
+    try {
+      console.log("clicked");
+      for (let i = 0; i < numWinners; i++) {
+        const txn = await initiateAirdrop(
+          [
+            "0x34979173ed20eb3db3ed00b689da5404199e28ad",
+            "0x6e8f63FB1009f2717aE49F288A9407C3557D428C",
+            "0x72C209D54f5b0772b50FEfe7107E3e6ED63194fa",
+          ],
+          "bafkreigqpzbkmexkmx42txx5tgoaqaasme7zv46u43xxlpid7spov3vasi"
+        );
+
+        const provider = new ethers.JsonRpcProvider(
+          "https://base-sepolia.g.alchemy.com/v2/Kj6gL2WIT6LCpP2xoL4qaelgB9ZBG-27"
+        );
+
+        const wallet = new ethers.Wallet(
+          process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
+        );
+        const signer = wallet.connect(provider);
+
+        const tx = await signer.sendTransaction(txn as any);
+        console.log(`Airdrop transaction ${i + 1}:`, tx);
+      }
+    } catch (error) {
+      console.error("Error initiating airdrop:", error);
+    }
+  };
+
   useEffect(() => {
     if (!client) {
       return;
@@ -165,6 +202,35 @@ export default function Page() {
           </CardContent>
         </Card>
       </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Voucher Giveaway</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700">
+                Number of Winners:
+              </label>
+              <input
+                type="number"
+                value={numWinners}
+                onChange={(e) => setNumWinners(Number(e.target.value))}
+                defaultValue={1}
+                className="w-20 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+            <Button
+              className="w-fit"
+              onClick={async () => {
+                await handleInitiateAirdrop();
+              }}
+            >
+              Initiate Airdrop
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
