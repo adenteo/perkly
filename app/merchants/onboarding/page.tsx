@@ -21,6 +21,7 @@ const MerchantOnboarding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [txHash, setTxHash] = useState<string>("");
   const router = useRouter();
+  const blockscoutUrl = process.env.NEXT_PUBLIC_BLOCKSCOUT_URL
 
   if (!client) {
     return <div>Please log in to continue</div>;
@@ -120,7 +121,7 @@ const MerchantOnboarding = () => {
                 <div className="self-start text-xs mt-6">
                   <div>Registration success!</div>
                   <a
-                    href={`https://sepolia.etherscan.io/tx/${txHash}`}
+                    href={`${blockscoutUrl}/tx/${txHash}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-blue-500"

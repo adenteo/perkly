@@ -33,6 +33,7 @@ export default function Page() {
   const [numWinners, setNumWinners] = useState(1);
   const [isAirdropping, setIsAirdropping] = useState(false);
   const [discountHash, setDiscountHash] = useState("");
+  const blockscoutUrl = process.env.NEXT_PUBLIC_BLOCKSCOUT_URL;
   const {
     GetDailySpendingsMerchant,
     GetMerchantDashboardData,
@@ -434,7 +435,17 @@ export default function Page() {
                           New Subscription
                         </div>
                       )}
-                      <p>User: {ensName}</p>
+                      <p>
+                        User:{" "}
+                        <a
+                          href={`${blockscoutUrl}/address/${ensName}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          {ensName}
+                        </a>
+                      </p>
                       <p className="text-xs">
                         Timestamp:{" "}
                         {new Date(
@@ -444,7 +455,7 @@ export default function Page() {
                       <a
                         className="text-xs text-blue-500"
                         target="_blank"
-                        href={`https://base-sepolia.blockscout.com/tx/${data.transactionHash}`}
+                        href={`${blockscoutUrl}/tx/${data.transactionHash}`}
                       >
                         {data.transactionHash}
                       </a>

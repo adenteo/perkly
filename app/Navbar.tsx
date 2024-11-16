@@ -27,7 +27,22 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center">
       <Image src={Perkly} alt="perkly" width={60} height={60}></Image>
-      {/* <DynamicWidget /> */}
+      <Button variant={"link"} onClick={() => router.push("/merchants/all")}>
+        All Merchants
+      </Button>
+      <Button
+        variant={"link"}
+        onClick={() => router.push("/merchants/onboarding")}
+      >
+        Merchants Onboarding
+      </Button>
+      <Button
+        variant={"link"}
+        onClick={() => router.push("/merchants/dashboard")}
+      >
+        Merchants Dashboard
+      </Button>
+
       {!authenticated && (
         <Button disabled={disableLogin} onClick={login}>
           Log in
@@ -48,7 +63,6 @@ const Navbar = () => {
           </Button>
         </div>
       )}
-      {/* {status === "success" && <div>{data}</div>} */}
     </div>
   );
 };

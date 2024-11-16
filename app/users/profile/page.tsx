@@ -34,6 +34,7 @@ export default function UserProfile() {
   const { client } = useSmartWallets();
   const [isClaiming, setIsClaiming] = useState(false);
   const [combinedData, setCombinedData] = useState<any[]>([]);
+  const blockscoutUrl = process.env.NEXT_PUBLIC_BLOCKSCOUT_URL;
 
   const { GetUserDashboard } = getBuiltGraphSDK();
 
@@ -245,7 +246,17 @@ export default function UserProfile() {
                         ? "Subscribed to Merchant"
                         : "Received Airdrop"}
                     </div>
-                    <div>Merchant: {item.merchant}</div>
+                    <div>
+                      Merchant:{" "}
+                      <a
+                        href={`${blockscoutUrl}/address/${item.merchant}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        {item.merchant}
+                      </a>
+                    </div>
                     {item.amountSpent && (
                       <div>Amount Spent: ${item.amountSpent / 100}</div>
                     )}
