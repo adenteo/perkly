@@ -152,7 +152,7 @@ const useMultiBaas = (): MultiBaasHook => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useCallback(async (): Promise<any | null> => {
       try {
-        const response = await eventsQueryApi.executeEventQuery("nft tokens");
+        const response = await eventsQueryApi.executeEventQuery("nft tokens", 0, 50);
         return response.data.result;
       } catch (error) {
         console.error("Error fetching voucher events:", error);
