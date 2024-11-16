@@ -4,7 +4,11 @@ import type {
   PostMethodArgs,
   TransactionToSignResponse,
 } from "@curvegrid/multibaas-sdk";
-import { Configuration, ContractsApi } from "@curvegrid/multibaas-sdk";
+import {
+  Configuration,
+  ContractsApi,
+  EventQueriesApi,
+} from "@curvegrid/multibaas-sdk";
 import type { SendTransactionParameters } from "@wagmi/core";
 import { useCallback, useMemo } from "react";
 // import { useAccount } from "wagmi";
@@ -16,6 +20,8 @@ interface MultiBaasHook {
     addr: string[],
     tokenUri: string
   ) => Promise<SendTransactionParameters>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getVoucherEvents: () => Promise<any | null>;
 }
 
 const useMultiBaas = (): MultiBaasHook => {
@@ -42,6 +48,10 @@ const useMultiBaas = (): MultiBaasHook => {
 
   // Memoize Api
   const contractsApi = useMemo(() => new ContractsApi(mbConfig), [mbConfig]);
+  const eventsQueryApi = useMemo(
+    () => new EventQueriesApi(mbConfig),
+    [mbConfig]
+  );
   //   const { address, isConnected } = useAccount();
 
   // Function to get the current multiplier from the PerklyMasterToken contract
@@ -112,8 +122,6 @@ const useMultiBaas = (): MultiBaasHook => {
       perklyTokenContractLabel,
       perklyVoucherAddressLabel,
       perklyVoucherContractLabel,
-      //   isConnected,
-      //   address,
     ]
   );
 
@@ -138,7 +146,20 @@ const useMultiBaas = (): MultiBaasHook => {
     [callContractFunction]
   );
 
+  const getVoucherEvents =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    useCallback(async (): Promise<any | null> => {
+      try {
+        const response = await eventsQueryApi.executeEventQuery("nft tokens");
+        return response.data.result;
+      } catch (error) {
+        console.error("Error fetching voucher events:", error);
+        return null;
+      }
+    }, [eventsQueryApi]);
+
   return {
+    getVoucherEvents,
     rollNewMultiplier,
     getMultiplier,
     initiateAirdrop,
