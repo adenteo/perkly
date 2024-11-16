@@ -21,8 +21,8 @@ import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext
 import { MeshStore, FsStoreStorageAdapter } from '@graphql-mesh/store';
 import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
-import type { PerklyVoucherTypes } from './sources/perklyVoucher/types';
 import type { PerklysubscriptionTypes } from './sources/perklysubscription/types';
+import type { PerklyVoucherTypes } from './sources/perklyVoucher/types';
 import * as importedModule$0 from "./sources/perklysubscription/introspectionSchema";
 import * as importedModule$1 from "./sources/perklyVoucher/introspectionSchema";
 export type Maybe<T> = T | null;
@@ -3866,6 +3866,7 @@ const merger = new(StitchingMerger as any)({
 const documentHashMap = {
         "3c3ecddb4efcffbef0fe60922c7cfd6a60f1b690c819af8defab7de8ee5eb4e5": GetAirdropCompletedsDocument,
 "21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a": GetDailySpendingsMerchantDocument,
+"98b953689db5851856ed83a12b196a7b401c705b5e26555adcd0f042b897cc8e": GetMerchantByNameDocument,
 "8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc": GetMerchantDashboardDataDocument,
 "b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b": GetMerchantSubscribersDocument,
 "6473788b7e690bf8ccfb761ab2ff7bf45ba62ca0f5219f6522de60d3dec67499": GetSubscriberSpendingsDocument,
@@ -3904,6 +3905,13 @@ additionalEnvelopPlugins.push(usePersistedOperations({
         },
         location: 'GetDailySpendingsMerchantDocument.graphql',
         sha256Hash: '21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a'
+      },{
+        document: GetMerchantByNameDocument,
+        get rawSDL() {
+          return printWithCache(GetMerchantByNameDocument);
+        },
+        location: 'GetMerchantByNameDocument.graphql',
+        sha256Hash: '98b953689db5851856ed83a12b196a7b401c705b5e26555adcd0f042b897cc8e'
       },{
         document: GetMerchantDashboardDataDocument,
         get rawSDL() {
@@ -4003,6 +4011,16 @@ export type GetDailySpendingsMerchantQuery = { totalSpendingStats_collection: Ar
     & { merchant: Pick<Merchant, 'id' | 'name'> }
   )> };
 
+export type GetMerchantByNameQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type GetMerchantByNameQuery = { merchantSearch: Array<(
+    Pick<Merchant, 'id' | 'name'>
+    & { subscribers: Array<Pick<MerchantSubscriber, 'id'>> }
+  )> };
+
 export type GetMerchantDashboardDataQueryVariables = Exact<{
   merchantId?: InputMaybe<Scalars['Bytes']['input']>;
 }>;
@@ -4061,6 +4079,17 @@ export const GetDailySpendingsMerchantDocument = gql`
   }
 }
     ` as unknown as DocumentNode<GetDailySpendingsMerchantQuery, GetDailySpendingsMerchantQueryVariables>;
+export const GetMerchantByNameDocument = gql`
+    query GetMerchantByName($name: String!) {
+  merchantSearch(text: $name) {
+    id
+    name
+    subscribers {
+      id
+    }
+  }
+}
+    ` as unknown as DocumentNode<GetMerchantByNameQuery, GetMerchantByNameQueryVariables>;
 export const GetMerchantDashboardDataDocument = gql`
     query GetMerchantDashboardData($merchantId: Bytes) {
   spendingTrackeds(where: {merchant: $merchantId}) {
@@ -4125,6 +4154,7 @@ export const GetUserDashboardDocument = gql`
 
 
 
+
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
@@ -4133,6 +4163,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     GetDailySpendingsMerchant(variables?: GetDailySpendingsMerchantQueryVariables, options?: C): Promise<GetDailySpendingsMerchantQuery> {
       return requester<GetDailySpendingsMerchantQuery, GetDailySpendingsMerchantQueryVariables>(GetDailySpendingsMerchantDocument, variables, options) as Promise<GetDailySpendingsMerchantQuery>;
+    },
+    GetMerchantByName(variables: GetMerchantByNameQueryVariables, options?: C): Promise<GetMerchantByNameQuery> {
+      return requester<GetMerchantByNameQuery, GetMerchantByNameQueryVariables>(GetMerchantByNameDocument, variables, options) as Promise<GetMerchantByNameQuery>;
     },
     GetMerchantDashboardData(variables?: GetMerchantDashboardDataQueryVariables, options?: C): Promise<GetMerchantDashboardDataQuery> {
       return requester<GetMerchantDashboardDataQuery, GetMerchantDashboardDataQueryVariables>(GetMerchantDashboardDataDocument, variables, options) as Promise<GetMerchantDashboardDataQuery>;

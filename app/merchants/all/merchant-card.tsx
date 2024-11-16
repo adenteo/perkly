@@ -13,6 +13,9 @@ import { publicClient } from "./client";
 import { normalize } from "viem/ens";
 import { ConfirmationDialog } from "@/app/components/confirmation-dialog";
 import { ethers } from "ethers";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default function MerchantCard({
   merchantName,
@@ -104,7 +107,12 @@ export default function MerchantCard({
   return (
     <Card className="p-4 flex flex-col h-full">
       <div className="mb-4">
-        <div className="text-xl font-semibold">{merchantName}</div>
+        <Link
+          target="_blank"
+          href={`https://app.ens.domains/${merchantName}.perkly.eth`}
+        >
+          <div className="text-xl font-semibold">{merchantName}</div>
+        </Link>
         <div className="text-xs line-clamp-4">{merchantDescription}</div>
         {data && data.userSubscribeds && (
           <div className="text-sm font-semibold">

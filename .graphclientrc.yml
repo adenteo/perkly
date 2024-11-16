@@ -14,3 +14,4 @@ documents:
   - ./graphql/GetAirdropCompleteds.gql
   - ./graphql/GetSubscriberSpendings.gql
   - ./graphql/GetUserDashboard.gql
+  - ./graphql/GetMerchantByName.gql
