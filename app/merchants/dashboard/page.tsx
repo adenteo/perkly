@@ -46,7 +46,7 @@ export default function Page() {
     queryKey: ["data"],
     async queryFn() {
       return await GetMerchantDashboardData({
-        merchantId: merchant?.smartWalletAddress,
+        merchantId: merchant?.walletAddress,
       });
     },
     enabled: !!merchant,
@@ -56,7 +56,7 @@ export default function Page() {
     queryKey: ["totalSpendingStats_collection"],
     async queryFn() {
       return await GetDailySpendingsMerchant({
-        merchantId: merchant?.smartWalletAddress,
+        merchantId: merchant?.walletAddress,
       });
     },
     enabled: !!merchant,

@@ -34,11 +34,12 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node": "^10.9.2",
     "wagmi": "^2.12.32"
   },
   "devDependencies": {
     "@graphprotocol/client-cli": "^3.0.7",
-    "@types/node": "^20",
+    "@types/node": "^20.17.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
@@ -46,6 +47,6 @@
     "postcss": "^8",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.6.3"
   }
 }
