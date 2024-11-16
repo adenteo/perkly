@@ -18,6 +18,7 @@ interface MultiBaasHook {
   getMultiplier: () => Promise<number | null>;
   rollNewMultiplier: (addr: string) => Promise<SendTransactionParameters>;
   initiateAirdrop: (
+    merchantAddr: string,
     addr: string[],
     tokenUri: string
   ) => Promise<SendTransactionParameters>;
@@ -137,10 +138,12 @@ const useMultiBaas = (): MultiBaasHook => {
 
   const initiateAirdrop = useCallback(
     async (
+      merchantAddr: string,
       addrs: string[],
       tokenUri: string
     ): Promise<SendTransactionParameters> => {
       return await callContractFunction("voucher", "initiateAirdrop", [
+        merchantAddr,
         addrs,
         tokenUri,
       ]);
@@ -152,7 +155,11 @@ const useMultiBaas = (): MultiBaasHook => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useCallback(async (): Promise<any | null> => {
       try {
-        const response = await eventsQueryApi.executeEventQuery("nft tokens", 0, 50);
+        const response = await eventsQueryApi.executeEventQuery(
+          "nft tokens",
+          0,
+          50
+        );
         return response.data.result;
       } catch (error) {
         console.error("Error fetching voucher events:", error);
