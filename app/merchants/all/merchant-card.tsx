@@ -92,7 +92,7 @@ export default function MerchantCard({
   useEffect(() => {
     const getMerchantDescription = async () => {
       const ensText = await publicClient.getEnsText({
-        name: normalize(`${merchantName}.adenteo.eth`),
+        name: normalize(`${merchantName}.perkly.eth`),
         key: "Description",
       });
       setMerchantDescription(ensText!);

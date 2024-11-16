@@ -8,6 +8,7 @@ import { http } from "viem";
 import { baseSepolia, sepolia } from "viem/chains";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { SmartWalletsProvider } from "@privy-io/react-auth/smart-wallets";
+import { createConfig, WagmiProvider } from "wagmi";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -38,14 +39,13 @@ function getQueryClient() {
 export default function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  // const config = createConfig({
-  //   chains: [baseSepolia, sepolia],
-  //   // multiInjectedProviderDiscovery: false,
-  //   transports: {
-  //     [baseSepolia.id]: http(),
-  //     [sepolia.id]: http(),
-  //   },
-  // });
+  const config = createConfig({
+    chains: [baseSepolia],
+    transports: {
+      [baseSepolia.id]: http(),
+      [sepolia.id]: http(),
+    },
+  });
   const queryClient = getQueryClient();
 
   return (
@@ -77,7 +77,7 @@ export default function Providers({
         }}
       >
         <QueryClientProvider client={queryClient}>
-          {children}
+          <WagmiProvider config={config}>{children}</WagmiProvider>
         </QueryClientProvider>
       </SmartWalletsProvider>
     </PrivyProvider>

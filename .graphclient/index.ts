@@ -21,8 +21,8 @@ import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext
 import { MeshStore, FsStoreStorageAdapter } from '@graphql-mesh/store';
 import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
-import type { PerklysubscriptionTypes } from './sources/perklysubscription/types';
 import type { PerklyVoucherTypes } from './sources/perklyVoucher/types';
+import type { PerklysubscriptionTypes } from './sources/perklysubscription/types';
 import * as importedModule$0 from "./sources/perklysubscription/introspectionSchema";
 import * as importedModule$1 from "./sources/perklyVoucher/introspectionSchema";
 export type Maybe<T> = T | null;
@@ -3864,11 +3864,12 @@ const merger = new(StitchingMerger as any)({
         store: rootStore.child('stitchingMerger')
       })
 const documentHashMap = {
-        "21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a": GetDailySpendingsMerchantDocument,
-"3c3ecddb4efcffbef0fe60922c7cfd6a60f1b690c819af8defab7de8ee5eb4e5": GetAirdropCompletedsDocument,
-"b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b": GetMerchantSubscribersDocument,
+        "3c3ecddb4efcffbef0fe60922c7cfd6a60f1b690c819af8defab7de8ee5eb4e5": GetAirdropCompletedsDocument,
+"21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a": GetDailySpendingsMerchantDocument,
 "8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc": GetMerchantDashboardDataDocument,
-"6473788b7e690bf8ccfb761ab2ff7bf45ba62ca0f5219f6522de60d3dec67499": GetSubscriberSpendingsDocument
+"b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b": GetMerchantSubscribersDocument,
+"6473788b7e690bf8ccfb761ab2ff7bf45ba62ca0f5219f6522de60d3dec67499": GetSubscriberSpendingsDocument,
+"7e87b1431e874a2f7a038ec6ea73f1b25ddef33f8c1c486b611b44674582e64b": GetUserDashboardDocument
       }
 additionalEnvelopPlugins.push(usePersistedOperations({
         getPersistedOperation(key) {
@@ -3890,13 +3891,6 @@ additionalEnvelopPlugins.push(usePersistedOperations({
     get documents() {
       return [
       {
-        document: GetDailySpendingsMerchantDocument,
-        get rawSDL() {
-          return printWithCache(GetDailySpendingsMerchantDocument);
-        },
-        location: 'GetDailySpendingsMerchantDocument.graphql',
-        sha256Hash: '21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a'
-      },{
         document: GetAirdropCompletedsDocument,
         get rawSDL() {
           return printWithCache(GetAirdropCompletedsDocument);
@@ -3904,12 +3898,12 @@ additionalEnvelopPlugins.push(usePersistedOperations({
         location: 'GetAirdropCompletedsDocument.graphql',
         sha256Hash: '3c3ecddb4efcffbef0fe60922c7cfd6a60f1b690c819af8defab7de8ee5eb4e5'
       },{
-        document: GetMerchantSubscribersDocument,
+        document: GetDailySpendingsMerchantDocument,
         get rawSDL() {
-          return printWithCache(GetMerchantSubscribersDocument);
+          return printWithCache(GetDailySpendingsMerchantDocument);
         },
-        location: 'GetMerchantSubscribersDocument.graphql',
-        sha256Hash: 'b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b'
+        location: 'GetDailySpendingsMerchantDocument.graphql',
+        sha256Hash: '21622cf46a429ee984669123adaa99c4c462d8eb479ef9e54bb7ea18fe08a77a'
       },{
         document: GetMerchantDashboardDataDocument,
         get rawSDL() {
@@ -3918,12 +3912,26 @@ additionalEnvelopPlugins.push(usePersistedOperations({
         location: 'GetMerchantDashboardDataDocument.graphql',
         sha256Hash: '8df7aa323e6551adf47e8480041f819b5e3967199ff658a2667f0d781cd791dc'
       },{
+        document: GetMerchantSubscribersDocument,
+        get rawSDL() {
+          return printWithCache(GetMerchantSubscribersDocument);
+        },
+        location: 'GetMerchantSubscribersDocument.graphql',
+        sha256Hash: 'b51a171cabaf946e5d0c96fd8f9ae88e1e6a9afad7cae03b3f6a9e261a87207b'
+      },{
         document: GetSubscriberSpendingsDocument,
         get rawSDL() {
           return printWithCache(GetSubscriberSpendingsDocument);
         },
         location: 'GetSubscriberSpendingsDocument.graphql',
         sha256Hash: '6473788b7e690bf8ccfb761ab2ff7bf45ba62ca0f5219f6522de60d3dec67499'
+      },{
+        document: GetUserDashboardDocument,
+        get rawSDL() {
+          return printWithCache(GetUserDashboardDocument);
+        },
+        location: 'GetUserDashboardDocument.graphql',
+        sha256Hash: '7e87b1431e874a2f7a038ec6ea73f1b25ddef33f8c1c486b611b44674582e64b'
       }
     ];
     },
@@ -4014,6 +4022,13 @@ export type GetSubscriberSpendingsQueryVariables = Exact<{ [key: string]: never;
 
 export type GetSubscriberSpendingsQuery = { spendingTrackeds: Array<Pick<SpendingTracked, 'id' | 'merchant' | 'transactionHash' | 'user' | 'amountSpent' | 'blockTimestamp'>> };
 
+export type GetUserDashboardQueryVariables = Exact<{
+  userAddress?: InputMaybe<Scalars['Bytes']['input']>;
+}>;
+
+
+export type GetUserDashboardQuery = { airdropCompleteds: Array<Pick<AirdropCompleted, 'id' | 'merchant' | 'blockTimestamp' | 'voucherId' | 'transactionHash'>>, spendingTrackeds: Array<Pick<SpendingTracked, 'merchant' | 'amountSpent' | 'blockTimestamp'>>, userSubscribeds: Array<Pick<UserSubscribed, 'merchant' | 'blockTimestamp'>> };
+
 
 export const GetAirdropCompletedsDocument = gql`
     query GetAirdropCompleteds($merchantId: Bytes) {
@@ -4083,6 +4098,27 @@ export const GetSubscriberSpendingsDocument = gql`
   }
 }
     ` as unknown as DocumentNode<GetSubscriberSpendingsQuery, GetSubscriberSpendingsQueryVariables>;
+export const GetUserDashboardDocument = gql`
+    query GetUserDashboard($userAddress: Bytes) {
+  airdropCompleteds(where: {selectedRecipient: $userAddress}) {
+    id
+    merchant
+    blockTimestamp
+    voucherId
+    transactionHash
+  }
+  spendingTrackeds(where: {user: $userAddress}) {
+    merchant
+    amountSpent
+    blockTimestamp
+  }
+  userSubscribeds(where: {user: $userAddress}) {
+    merchant
+    blockTimestamp
+  }
+}
+    ` as unknown as DocumentNode<GetUserDashboardQuery, GetUserDashboardQueryVariables>;
+
 
 
 
@@ -4106,6 +4142,9 @@ export function getSdk<C, E>(requester: Requester<C, E>) {
     },
     GetSubscriberSpendings(variables?: GetSubscriberSpendingsQueryVariables, options?: C): Promise<GetSubscriberSpendingsQuery> {
       return requester<GetSubscriberSpendingsQuery, GetSubscriberSpendingsQueryVariables>(GetSubscriberSpendingsDocument, variables, options) as Promise<GetSubscriberSpendingsQuery>;
+    },
+    GetUserDashboard(variables?: GetUserDashboardQueryVariables, options?: C): Promise<GetUserDashboardQuery> {
+      return requester<GetUserDashboardQuery, GetUserDashboardQueryVariables>(GetUserDashboardDocument, variables, options) as Promise<GetUserDashboardQuery>;
     }
   };
 }

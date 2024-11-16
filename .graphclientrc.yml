@@ -13,3 +13,4 @@ documents:
   - ./graphql/GetMerchantSubscribers.gql
   - ./graphql/GetAirdropCompleteds.gql
   - ./graphql/GetSubscriberSpendings.gql
+  - ./graphql/GetUserDashboard.gql

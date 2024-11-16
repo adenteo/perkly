@@ -45,7 +45,7 @@ const MerchantOnboarding = () => {
             }),
           },
           {
-            to: "0xc971cb7f3ac938ed4f75fef3c10fdd338b9a092d",
+            to: "0xed2c1070d9523fd0c5d03b7abdc7a12ef9e7f75c",
             data: encodeFunctionData({
               abi: RegistryABI,
               functionName: "setAddr",
@@ -53,7 +53,7 @@ const MerchantOnboarding = () => {
             }),
           },
           {
-            to: "0xc971cb7f3ac938ed4f75fef3c10fdd338b9a092d",
+            to: "0xed2c1070d9523fd0c5d03b7abdc7a12ef9e7f75c",
             data: encodeFunctionData({
               abi: RegistryABI,
               functionName: "setText",

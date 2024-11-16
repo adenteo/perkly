@@ -1,0 +1,18 @@
+query GetUserDashboard($userAddress: Bytes) {
+  airdropCompleteds(where: { selectedRecipient: $userAddress }) {
+    id
+    merchant
+    blockTimestamp
+    voucherId
+    transactionHash
+  }
+  spendingTrackeds(where: { user: $userAddress }) {
+    merchant
+    amountSpent
+    blockTimestamp
+  }
+  userSubscribeds(where: { user: $userAddress }) {
+    merchant
+    blockTimestamp
+  }
+}

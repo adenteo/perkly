@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/card";
 import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import VoucherCard from "@/app/components/voucher-card";
+import { useQuery } from "@tanstack/react-query";
+import { getBuiltGraphSDK } from "@/.graphclient";
 
 interface Voucher {
   selectedRecipient: string;
@@ -31,6 +33,20 @@ export default function UserProfile() {
   const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_BASE);
   const { client } = useSmartWallets();
   const [isClaiming, setIsClaiming] = useState(false);
+  const [combinedData, setCombinedData] = useState<any[]>([]);
+
+  const { GetUserDashboard } = getBuiltGraphSDK();
+
+  const { data } = useQuery({
+    queryKey: ["UserDashboard"],
+    async queryFn() {
+      return await GetUserDashboard({
+        userAddress: client?.account.address,
+      });
+    },
+    enabled: !!client,
+  });
+  console.log(data);
   const abi = [
     "function tokenURI(uint256 tokenId) public view returns (string)",
   ];
@@ -118,6 +134,7 @@ export default function UserProfile() {
     try {
       console.log("loading evenet");
       const events = await getVoucherEvents();
+      console.log(events, "events");
       if (events) {
         const voucherDataPromises = events.rows
           .filter((event: any) => {
@@ -149,15 +166,37 @@ export default function UserProfile() {
     }
   }, [client]);
 
+  useEffect(() => {
+    if (data) {
+      // Combine and tag data
+      const combined = [
+        ...data.spendingTrackeds.map((item: any) => ({
+          ...item,
+          type: "spendingTracked",
+        })),
+        ...data.userSubscribeds.map((item: any) => ({
+          ...item,
+          type: "userSubscribed",
+        })),
+        ...data.airdropCompleteds.map((item: any) => ({
+          ...item,
+          type: "airdropCompleted",
+        })),
+      ];
+
+      // Sort by blockTimestamp (latest first)
+      combined.sort(
+        (a, b) => parseInt(b.blockTimestamp) - parseInt(a.blockTimestamp)
+      );
+
+      setCombinedData(combined);
+    }
+  }, [data]);
+
   return (
     <div className="space-y-4 p-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Dashboard</CardTitle>
-            <CardDescription>Welcome back</CardDescription>
-          </CardHeader>
-        </Card>
+        Welcome back
       </div>
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
         <Card className="col-span-1">
@@ -179,6 +218,50 @@ export default function UserProfile() {
             </div>
           </CardContent>
         </Card>
+      </div>
+      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
+        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
+          <Card className="col-span-1">
+            <CardHeader>
+              <CardTitle>Recent Activities</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {combinedData.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`p-4 rounded ${
+                      item.type === "spendingTracked"
+                        ? "bg-green-100"
+                        : item.type === "userSubscribed"
+                        ? "bg-blue-100"
+                        : "bg-orange-100"
+                    }`}
+                  >
+                    <div className="text-xl font-semibold">
+                      {item.type === "spendingTracked"
+                        ? "Spending Tracked"
+                        : item.type === "userSubscribed"
+                        ? "Subscribed to Merchant"
+                        : "Received Airdrop"}
+                    </div>
+                    <div>Merchant: {item.merchant}</div>
+                    {item.amountSpent && (
+                      <div>Amount Spent: ${item.amountSpent / 100}</div>
+                    )}
+                    {item.voucherId && <div>Voucher ID: {item.voucherId}</div>}
+                    <div className="text-sm mt-2">
+                      Timestamp:
+                      {new Date(
+                        parseInt(item.blockTimestamp) * 1000
+                      ).toLocaleString()}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

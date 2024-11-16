@@ -17,7 +17,7 @@ export const addMerchantENS = async (
   const signer = wallet.connect(provider);
 
   const registrarContract = new ethers.Contract(
-    "0x7e92dFD73bE79ed147AD58Ff5b2095416b67F720",
+    "0xaCb69Ed682D22F3ee4804cBD53c4e619152Db74F",
     RegistrarABI,
     signer
   );

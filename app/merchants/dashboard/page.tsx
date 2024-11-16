@@ -78,6 +78,17 @@ export default function Page() {
     enabled: !!merchant,
   });
 
+  const { data: airdropData, refetch: refetchAirdrop } = useQuery({
+    queryKey: ["AirdropData"],
+    async queryFn() {
+      const data = await GetAirdropCompleteds({
+        merchantId: client!.account.address,
+      });
+      return data;
+    },
+    enabled: !!client,
+  });
+
   const combinedData = useMemo(
     () =>
       data
@@ -148,7 +159,7 @@ export default function Page() {
           });
 
           console.log(`Airdrop transaction ${i + 1}:`, tx);
-
+          await provider.waitForTransaction(tx.hash);
           // Increment the nonce for the next transaction
           currentNonce++;
         } catch (error) {
@@ -293,7 +304,7 @@ export default function Page() {
             </Button>
             <Card className="mt-4 p-6">
               <CardTitle>Recent Airdrops</CardTitle>
-              <RecentAirdrops />
+              <RecentAirdrops data={airdropData} />
             </Card>
           </div>
         </CardContent>
