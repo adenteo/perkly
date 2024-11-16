@@ -1,0 +1,104 @@
+type MerchantRegistered @entity(immutable: true) {
+  id: Bytes!
+  merchant: Bytes! # address
+  name: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type _Schema_
+  @fulltext(
+    name: "merchantSearch"
+    language: en
+    algorithm: rank
+    include: [{ entity: "Merchant", fields: [{ name: "name" }] }]
+  )
+
+type Merchant @entity {
+  id: Bytes! # address of merchant
+  name: String! # name of merchant
+  subscribers: [MerchantSubscriber!]! @derivedFrom(field: "merchant")
+}
+
+type Subscriber @entity {
+  id: Bytes! # address of subscriber
+  merchants: [MerchantSubscriber!]! @derivedFrom(field: "subscriber")
+}
+
+type MerchantSubscriber @entity {
+  id: Bytes!
+  merchant: Merchant! # address
+  subscriber: Subscriber! # address
+}
+
+type RewardTierReached @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  merchant: Bytes! # address
+  tier: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SpendingTracked @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  merchant: Bytes! # address
+  amountSpent: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SpendingTrackedData @entity(timeseries: true) {
+  id: Int8!
+  timestamp: Timestamp!
+  merchant: Merchant!
+  amount: BigInt!
+}
+
+type SpendingTrackedDataUser @entity(timeseries: true) {
+  id: Int8!
+  timestamp: Timestamp!
+  subscriber: Subscriber!
+  amount: BigInt!
+}
+
+type TotalSpendingStats
+  @aggregation(intervals: ["hour", "day"], source: "SpendingTrackedData") {
+  id: Int8!
+  timestamp: Timestamp!
+  merchant: Merchant!
+  totalAmount: BigInt! @aggregate(fn: "sum", arg: "amount")
+  count: Int8! @aggregate(fn: "count", cumulative: true)
+}
+
+type TotalSpendingStatsUser
+  @aggregation(intervals: ["hour", "day"], source: "SpendingTrackedDataUser") {
+  id: Int8!
+  timestamp: Timestamp!
+  subscriber: Subscriber!
+  totalAmount: BigInt! @aggregate(fn: "sum", arg: "amount")
+  count: Int8! @aggregate(fn: "count", cumulative: true)
+}
+
+type TierUpdated @entity(immutable: true) {
+  id: Bytes!
+  merchant: Bytes! # address
+  tierIndex: Int! # uint8
+  spendingThreshold: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UserSubscribed @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  merchant: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
