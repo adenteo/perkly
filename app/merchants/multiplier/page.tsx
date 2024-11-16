@@ -7,8 +7,12 @@ import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import { ethers } from "ethers";
 
 export default function Page() {
-  const { getMultiplier, rollNewMultiplier, initiateAirdrop } = useMultiBaas();
-  const { client } = useSmartWallets();
+  const {
+    getMultiplier,
+    rollNewMultiplier,
+    initiateAirdrop,
+    getVoucherEvents,
+  } = useMultiBaas();
 
   const handleInitiateAirdrop = async () => {
     // if (!client) return;
@@ -44,6 +48,13 @@ export default function Page() {
     console.log(num);
   };
 
+  const handleGetVoucherEvents = async () => {
+    console.log("clicked");
+    // console.log(getMultiplier)
+    const obj = await getVoucherEvents();
+    console.log(obj);
+  };
+
   const handleRollNewMultiplier = async () => {
     console.log("clicked");
     const txn = await rollNewMultiplier(
@@ -61,7 +72,6 @@ export default function Page() {
       >
         Roll New Multiplier
       </Button>
-
       <Button
         onClick={async () => {
           await handleGetMultiplier();
@@ -69,7 +79,6 @@ export default function Page() {
       >
         Get Multiplier
       </Button>
-
       <Button
         onClick={async () => {
           await handleInitiateAirdrop();
@@ -77,8 +86,13 @@ export default function Page() {
       >
         Initiate Airdrop
       </Button>
-
-      {/* <SendNotification /> */}
+      <Button
+        onClick={async () => {
+          await handleGetVoucherEvents();
+        }}
+      >
+        Event Query
+      </Button>
     </div>
   );
 }
