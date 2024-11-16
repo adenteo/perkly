@@ -5,6 +5,7 @@ import type {
   TransactionToSignResponse,
 } from "@curvegrid/multibaas-sdk";
 import { Configuration, ContractsApi } from "@curvegrid/multibaas-sdk";
+import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
 import type { SendTransactionParameters } from "@wagmi/core";
 import { useCallback, useMemo } from "react";
 // import { useAccount } from "wagmi";
@@ -78,9 +79,10 @@ const useMultiBaas = (): MultiBaasHook => {
       const payload: PostMethodArgs = {
         args,
         contractOverride: true,
-        from: "0x34979173eD20EB3DB3eD00b689Da5404199E28aD",
-        // ...(isConnected && address ? { from: address } : {}),
+        from: "0x2953161C2C1c004a4868595e2b1b839c499660e1",
+        // ...(client && client.account ? { from: client.account.address } : {}),
       };
+      console.log(payload, "payload");
       const addressLabel =
         sc === "voucher" ? perklyVoucherAddressLabel : perklyTokenAddressLabel;
       const contractLabel =
@@ -113,7 +115,6 @@ const useMultiBaas = (): MultiBaasHook => {
       perklyVoucherAddressLabel,
       perklyVoucherContractLabel,
       //   isConnected,
-      //   address,
     ]
   );
 

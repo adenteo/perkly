@@ -51,7 +51,7 @@ export async function sendNotification(toAddress: string, message: string) {
   const user = await PushAPI.initialize(signer, {
     env: CONSTANTS.ENV.STAGING,
   });
-  console.log("trying to send msg")
+  console.log("trying to send msg");
   await user.channel.send([toAddress], {
     notification: {
       title: "🎉 You've received a voucher! 🎉 \n",
@@ -65,4 +65,9 @@ export const fetchMerchant = async (walletAddress: string) => {
     where: { walletAddress },
   });
   return merchant;
+};
+
+export const getMerchants = async () => {
+  const merchants = await prisma.merchant.findMany();
+  return merchants;
 };

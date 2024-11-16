@@ -3,11 +3,15 @@
 // import SendNotification from "@/app/components/notification-send";
 import { Button } from "@/components/ui/button";
 import useMultiBaas from "../../hooks/use-multibaas";
+import { useSmartWallets } from "@privy-io/react-auth/smart-wallets";
+import { ethers } from "ethers";
 
 export default function Page() {
   const { getMultiplier, rollNewMultiplier, initiateAirdrop } = useMultiBaas();
+  const { client } = useSmartWallets();
 
   const handleInitiateAirdrop = async () => {
+    // if (!client) return;
     console.log("clicked");
     const txn = await initiateAirdrop(
       [
@@ -17,7 +21,20 @@ export default function Page() {
       ],
       "bafkreigqpzbkmexkmx42txx5tgoaqaasme7zv46u43xxlpid7spov3vasi"
     );
-    console.log(txn);
+
+    const provider = new ethers.JsonRpcProvider(
+      "https://base-sepolia.g.alchemy.com/v2/Kj6gL2WIT6LCpP2xoL4qaelgB9ZBG-27"
+    );
+
+    const wallet = new ethers.Wallet(
+      process.env.NEXT_PUBLIC_PRIVATE_KEY_EOA as string
+    );
+    const signer = wallet.connect(provider);
+
+    const tx = await signer.sendTransaction(txn as any);
+    console.log(tx);
+
+    // await client.sendTransaction(txn as any);
   };
 
   const handleGetMultiplier = async () => {
@@ -34,6 +51,7 @@ export default function Page() {
     );
     console.log(txn);
   };
+
   return (
     <div>
       <Button
