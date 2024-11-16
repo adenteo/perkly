@@ -7,9 +7,11 @@ export async function POST(req: Request) {
   try {
     console.log("received webhook");
     const body = await req.json();
+    console.log(body, "body");
     const transferEvent = body.find(
       (eventObj: any) => eventObj.data.event.name === "AirdropCompleted"
     );
+    console.log(transferEvent, "transferEvent");
     console.log("transferEvent");
     if (transferEvent) {
       // Destructure the address and tokenId from the "inputs" array of the Transfer event
@@ -66,13 +68,13 @@ export async function POST(req: Request) {
     } else {
       return new Response(
         JSON.stringify({ error: "No Transfer event found" }),
-        { status: 400 }
+        { status: 200 }
       );
     }
   } catch (error) {
     console.error("Error processing webhook:", error);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
+      status: 200,
     });
   }
 }

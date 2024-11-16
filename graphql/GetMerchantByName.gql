@@ -1,0 +1,9 @@
+query GetMerchantByName($name: String!) {
+  merchantSearch(text: $name) {
+    id
+    name
+    subscribers {
+      id
+    }
+  }
+}

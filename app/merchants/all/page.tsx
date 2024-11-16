@@ -1,9 +1,5 @@
 import { getMerchants } from "@/app/actions";
 import MerchantCard from "./merchant-card";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { normalize } from "viem/ens";
-import { publicClient } from "./client";
 
 export default async function Page() {
   const merchants = await getMerchants();
