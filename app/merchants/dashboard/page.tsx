@@ -22,6 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { fetchMerchant } from "@/app/actions";
+import RecentAirdrops from "./recent-airdrops";
 
 export default function Page() {
   const { initiateAirdrop } = useMultiBaas();
@@ -57,7 +58,7 @@ export default function Page() {
   }
 
   const { data } = useQuery<Transaction>({
-    queryKey: ["data"],
+    queryKey: ["MerchantDashboard"],
     async queryFn() {
       return await GetMerchantDashboardData({
         merchantId: merchant?.walletAddress,
@@ -65,6 +66,7 @@ export default function Page() {
     },
     enabled: !!merchant,
   });
+  console.log(data);
 
   const last24Hours = useQuery({
     queryKey: ["totalSpendingStats_collection"],
@@ -184,7 +186,6 @@ export default function Page() {
     }
 
     const checkMerchant = async () => {
-      const data = await GetAirdropCompleteds();
       const existingMerchant = await fetchMerchant(client.account.address);
       if (existingMerchant) {
         console.log("Existing Merchant", existingMerchant);
@@ -292,6 +293,7 @@ export default function Page() {
             </Button>
             <Card className="mt-4 p-6">
               <CardTitle>Recent Airdrops</CardTitle>
+              <RecentAirdrops />
             </Card>
           </div>
         </CardContent>

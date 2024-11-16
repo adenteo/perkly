@@ -26,6 +26,7 @@ type AirdropCompleted {
   requestId: BigInt!
   selectedRecipient: Bytes!
   voucherId: BigInt!
+  merchant: Bytes!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -68,6 +69,16 @@ input AirdropCompleted_filter {
   voucherId_lte: BigInt
   voucherId_in: [BigInt!]
   voucherId_not_in: [BigInt!]
+  merchant: Bytes
+  merchant_not: Bytes
+  merchant_gt: Bytes
+  merchant_lt: Bytes
+  merchant_gte: Bytes
+  merchant_lte: Bytes
+  merchant_in: [Bytes!]
+  merchant_not_in: [Bytes!]
+  merchant_contains: Bytes
+  merchant_not_contains: Bytes
   blockNumber: BigInt
   blockNumber_not: BigInt
   blockNumber_gt: BigInt
@@ -105,6 +116,7 @@ enum AirdropCompleted_orderBy {
   requestId
   selectedRecipient
   voucherId
+  merchant
   blockNumber
   blockTimestamp
   transactionHash
@@ -1061,6 +1073,32 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [SubscriberAdded!]!
+  tokenBurn(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TokenBurn
+  tokenBurns(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TokenBurn_orderBy
+    orderDirection: OrderDirection
+    where: TokenBurn_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TokenBurn!]!
   transfer(
     id: ID!
     """
@@ -1473,6 +1511,32 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [SubscriberAdded!]!
+  tokenBurn(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): TokenBurn
+  tokenBurns(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: TokenBurn_orderBy
+    orderDirection: OrderDirection
+    where: TokenBurn_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [TokenBurn!]!
   transfer(
     id: ID!
     """
@@ -1560,6 +1624,73 @@ A string representation of microseconds UNIX timestamp (16 digits)
 
 """
 scalar Timestamp
+
+type TokenBurn {
+  id: Bytes!
+  voucherId: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+input TokenBurn_filter {
+  id: Bytes
+  id_not: Bytes
+  id_gt: Bytes
+  id_lt: Bytes
+  id_gte: Bytes
+  id_lte: Bytes
+  id_in: [Bytes!]
+  id_not_in: [Bytes!]
+  id_contains: Bytes
+  id_not_contains: Bytes
+  voucherId: BigInt
+  voucherId_not: BigInt
+  voucherId_gt: BigInt
+  voucherId_lt: BigInt
+  voucherId_gte: BigInt
+  voucherId_lte: BigInt
+  voucherId_in: [BigInt!]
+  voucherId_not_in: [BigInt!]
+  blockNumber: BigInt
+  blockNumber_not: BigInt
+  blockNumber_gt: BigInt
+  blockNumber_lt: BigInt
+  blockNumber_gte: BigInt
+  blockNumber_lte: BigInt
+  blockNumber_in: [BigInt!]
+  blockNumber_not_in: [BigInt!]
+  blockTimestamp: BigInt
+  blockTimestamp_not: BigInt
+  blockTimestamp_gt: BigInt
+  blockTimestamp_lt: BigInt
+  blockTimestamp_gte: BigInt
+  blockTimestamp_lte: BigInt
+  blockTimestamp_in: [BigInt!]
+  blockTimestamp_not_in: [BigInt!]
+  transactionHash: Bytes
+  transactionHash_not: Bytes
+  transactionHash_gt: Bytes
+  transactionHash_lt: Bytes
+  transactionHash_gte: Bytes
+  transactionHash_lte: Bytes
+  transactionHash_in: [Bytes!]
+  transactionHash_not_in: [Bytes!]
+  transactionHash_contains: Bytes
+  transactionHash_not_contains: Bytes
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+  and: [TokenBurn_filter]
+  or: [TokenBurn_filter]
+}
+
+enum TokenBurn_orderBy {
+  id
+  voucherId
+  blockNumber
+  blockTimestamp
+  transactionHash
+}
 
 type Transfer {
   id: Bytes!

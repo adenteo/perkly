@@ -1,0 +1,10 @@
+query GetSubscriberSpendings {
+  spendingTrackeds {
+    id
+    merchant
+    transactionHash
+    user
+    amountSpent
+    blockTimestamp
+  }
+}

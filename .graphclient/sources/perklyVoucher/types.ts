@@ -34,6 +34,7 @@ export type AirdropCompleted = {
   requestId: Scalars['BigInt']['output'];
   selectedRecipient: Scalars['Bytes']['output'];
   voucherId: Scalars['BigInt']['output'];
+  merchant: Scalars['Bytes']['output'];
   blockNumber: Scalars['BigInt']['output'];
   blockTimestamp: Scalars['BigInt']['output'];
   transactionHash: Scalars['Bytes']['output'];
@@ -76,6 +77,16 @@ export type AirdropCompleted_filter = {
   voucherId_lte?: InputMaybe<Scalars['BigInt']['input']>;
   voucherId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   voucherId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  merchant?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_not?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  merchant_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  merchant_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  merchant_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
   blockNumber?: InputMaybe<Scalars['BigInt']['input']>;
   blockNumber_not?: InputMaybe<Scalars['BigInt']['input']>;
   blockNumber_gt?: InputMaybe<Scalars['BigInt']['input']>;
@@ -113,6 +124,7 @@ export type AirdropCompleted_orderBy =
   | 'requestId'
   | 'selectedRecipient'
   | 'voucherId'
+  | 'merchant'
   | 'blockNumber'
   | 'blockTimestamp'
   | 'transactionHash';
@@ -807,6 +819,8 @@ export type Query = {
   ownershipTransferreds: Array<OwnershipTransferred>;
   subscriberAdded?: Maybe<SubscriberAdded>;
   subscriberAddeds: Array<SubscriberAdded>;
+  tokenBurn?: Maybe<TokenBurn>;
+  tokenBurns: Array<TokenBurn>;
   transfer?: Maybe<Transfer>;
   transfers: Array<Transfer>;
   voucherDiscountsSet?: Maybe<VoucherDiscountsSet>;
@@ -998,6 +1012,24 @@ export type QuerysubscriberAddedsArgs = {
 };
 
 
+export type QuerytokenBurnArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerytokenBurnsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<TokenBurn_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TokenBurn_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type QuerytransferArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -1145,6 +1177,8 @@ export type Subscription = {
   ownershipTransferreds: Array<OwnershipTransferred>;
   subscriberAdded?: Maybe<SubscriberAdded>;
   subscriberAddeds: Array<SubscriberAdded>;
+  tokenBurn?: Maybe<TokenBurn>;
+  tokenBurns: Array<TokenBurn>;
   transfer?: Maybe<Transfer>;
   transfers: Array<Transfer>;
   voucherDiscountsSet?: Maybe<VoucherDiscountsSet>;
@@ -1336,6 +1370,24 @@ export type SubscriptionsubscriberAddedsArgs = {
 };
 
 
+export type SubscriptiontokenBurnArgs = {
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiontokenBurnsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<TokenBurn_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<TokenBurn_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type SubscriptiontransferArgs = {
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_height>;
@@ -1393,6 +1445,72 @@ export type SubscriptionrandomRecipientSelectedsArgs = {
 export type Subscription_metaArgs = {
   block?: InputMaybe<Block_height>;
 };
+
+export type TokenBurn = {
+  id: Scalars['Bytes']['output'];
+  voucherId: Scalars['BigInt']['output'];
+  blockNumber: Scalars['BigInt']['output'];
+  blockTimestamp: Scalars['BigInt']['output'];
+  transactionHash: Scalars['Bytes']['output'];
+};
+
+export type TokenBurn_filter = {
+  id?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not?: InputMaybe<Scalars['Bytes']['input']>;
+  id_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  id_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  id_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  id_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  id_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  id_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  voucherId?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_not?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  voucherId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  voucherId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockNumber?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_not?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockNumber_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockTimestamp?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_not?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  blockTimestamp_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  blockTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  transactionHash?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_not?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  transactionHash_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  transactionHash_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  transactionHash_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<TokenBurn_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TokenBurn_filter>>>;
+};
+
+export type TokenBurn_orderBy =
+  | 'id'
+  | 'voucherId'
+  | 'blockNumber'
+  | 'blockTimestamp'
+  | 'transactionHash';
 
 export type Transfer = {
   id: Scalars['Bytes']['output'];
@@ -1713,6 +1831,10 @@ export type randomRecipientSelected_orderBy =
   /** null **/
   subscriberAddeds: InContextSdkMethod<Query['subscriberAddeds'], QuerysubscriberAddedsArgs, MeshContext>,
   /** null **/
+  tokenBurn: InContextSdkMethod<Query['tokenBurn'], QuerytokenBurnArgs, MeshContext>,
+  /** null **/
+  tokenBurns: InContextSdkMethod<Query['tokenBurns'], QuerytokenBurnsArgs, MeshContext>,
+  /** null **/
   transfer: InContextSdkMethod<Query['transfer'], QuerytransferArgs, MeshContext>,
   /** null **/
   transfers: InContextSdkMethod<Query['transfers'], QuerytransfersArgs, MeshContext>,
@@ -1773,6 +1895,10 @@ export type randomRecipientSelected_orderBy =
   subscriberAdded: InContextSdkMethod<Subscription['subscriberAdded'], SubscriptionsubscriberAddedArgs, MeshContext>,
   /** null **/
   subscriberAddeds: InContextSdkMethod<Subscription['subscriberAddeds'], SubscriptionsubscriberAddedsArgs, MeshContext>,
+  /** null **/
+  tokenBurn: InContextSdkMethod<Subscription['tokenBurn'], SubscriptiontokenBurnArgs, MeshContext>,
+  /** null **/
+  tokenBurns: InContextSdkMethod<Subscription['tokenBurns'], SubscriptiontokenBurnsArgs, MeshContext>,
   /** null **/
   transfer: InContextSdkMethod<Subscription['transfer'], SubscriptiontransferArgs, MeshContext>,
   /** null **/
