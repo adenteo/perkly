@@ -55,7 +55,7 @@ export default function MerchantCard({
     // enabled: !!ens.data,
   });
 
-  console.log(data);
+  // console.log(data);
 
   const handleSubscribeOnClick = async () => {
     if (!client) return;
