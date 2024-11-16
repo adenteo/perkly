@@ -117,6 +117,7 @@ export default function Page() {
       console.log("clicked");
       for (let i = 0; i < numWinners; i++) {
         const txn = await initiateAirdrop(
+          client.account.address,
           subscriberList,
           "bafkreigqpzbkmexkmx42txx5tgoaqaasme7zv46u43xxlpid7spov3vasi"
         );

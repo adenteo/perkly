@@ -26,7 +26,8 @@ interface Voucher {
 export default function UserProfile() {
   const { getVoucherEvents } = useMultiBaas();
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
-  const contractAddress = "0x0806CDF4498dFed2D1e066af2F23E6a87D798dDC";
+  const contractAddress = process.env
+    .NEXT_PUBLIC_PERKLY_VOUCHER_ADDRESS as string;
   const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_BASE);
   const { client } = useSmartWallets();
   const [isClaiming, setIsClaiming] = useState(false);
@@ -65,7 +66,8 @@ export default function UserProfile() {
   const handleClaimToken = async (voucherId: string) => {
     try {
       setIsClaiming(true);
-      const contractAddress = "0x0806CDF4498dFed2D1e066af2F23E6a87D798dDC";
+      const contractAddress = process.env
+        .NEXT_PUBLIC_PERKLY_VOUCHER_ADDRESS as string;
 
       const abi = [
         {

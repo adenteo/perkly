@@ -44,8 +44,10 @@ contract PerklyVoucher is VRFConsumerBaseV2Plus, ERC721URIStorage {
     event AirdropCompleted(
         uint256 indexed requestId,
         address indexed selectedRecipient,
-        uint256 voucherId
+        uint256 voucherId,
+        address indexed merchant
     );
+    event TokenBurn(uint256 indexed voucherId);
 
     constructor(
         uint256 subscriptionId,
@@ -56,6 +58,7 @@ contract PerklyVoucher is VRFConsumerBaseV2Plus, ERC721URIStorage {
     }
 
     function initiateAirdrop(
+        address merchantAddress,
         address[] memory subscribers,
         string memory tokenUri
     ) public returns (uint256 requestId) {
@@ -73,14 +76,14 @@ contract PerklyVoucher is VRFConsumerBaseV2Plus, ERC721URIStorage {
         );
 
         airdropRequest[requestId] = Airdrop({
-            merchant: msg.sender,
+            merchant: merchantAddress,
             ipfsHash: string(abi.encodePacked("ipfs://", tokenUri)),
             subscribers: subscribers
         });
 
         emit AirdropRequest(
             requestId,
-            msg.sender,
+            merchantAddress,
             airdropRequest[requestId].ipfsHash,
             airdropRequest[requestId].subscribers
         );
@@ -93,6 +96,7 @@ contract PerklyVoucher is VRFConsumerBaseV2Plus, ERC721URIStorage {
         Airdrop storage airdrop = airdropRequest[requestId];
         address[] memory subscribers = airdrop.subscribers;
         string memory tokenURI = airdrop.ipfsHash;
+        address merchant = airdrop.merchant;
 
         require(subscribers.length > 0, "No subscribers available");
 
@@ -126,7 +130,12 @@ contract PerklyVoucher is VRFConsumerBaseV2Plus, ERC721URIStorage {
         _mint(selectedRecipient, newVoucherId);
         _setTokenURI(newVoucherId, tokenURI);
 
-        emit AirdropCompleted(requestId, selectedRecipient, newVoucherId);
+        emit AirdropCompleted(
+            requestId,
+            selectedRecipient,
+            newVoucherId,
+            merchant
+        );
 
         delete airdropRequest[requestId];
     }
@@ -140,5 +149,6 @@ contract PerklyVoucher is VRFConsumerBaseV2Plus, ERC721URIStorage {
 
         // Burn the NFT
         _burn(voucherId);
+        emit TokenBurn(voucherId);
     }
 }
